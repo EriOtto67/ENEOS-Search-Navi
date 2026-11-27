@@ -1,208 +1,234 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>適Navi 車両検索</title>
+ <meta charset="UTF-8">
 
-  <style>
-    /* =========================================================
-       基本設定
-    ========================================================= */
+ <meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+ >
 
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background: #f5f7f6;
-      color: #333333;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "Noto Sans JP",
-        "Hiragino Kaku Gothic ProN",
-        "Yu Gothic",
-        Meiryo,
-        sans-serif;
-    }
+ <title>
+  適Navi 車両検索
+ </title>
 
 
-    /* =========================================================
-       ページ全体
-    ========================================================= */
+ <style>
 
-    .page {
-      width: 100%;
-      min-height: 100vh;
-      padding: 50px 20px;
-    }
+ /* =========================================================
+ 基本設定
+ ========================================================= */
 
-    .container {
-      width: 100%;
-      max-width: 620px;
-      margin: 0 auto;
-    }
+ * {
+  box-sizing: border-box;
+ }
 
+ body {
+  margin: 0;
+  padding: 0;
 
-    /* =========================================================
-       タイトル
-    ========================================================= */
+  background: #f5f7f6;
+  color: #333333;
 
-    .page-title {
-      margin: 0;
-      text-align: center;
-      color: #222222;
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-
-    .page-description {
-      margin: 10px 0 30px;
-      text-align: center;
-      color: #666666;
-      font-size: 14px;
-      line-height: 1.7;
-    }
+  font-family:
+   -apple-system,
+   BlinkMacSystemFont,
+   "Segoe UI",
+   "Noto Sans JP",
+   "Hiragino Kaku Gothic ProN",
+   "Yu Gothic",
+   Meiryo,
+   sans-serif;
+ }
 
 
-    /* =========================================================
-       検索カード
-    ========================================================= */
+ /* =========================================================
+ ページ全体
+ ========================================================= */
 
-    .search-card {
-      position: relative;
-      overflow: hidden;
-
-      background: #ffffff;
-
-      border: 1px solid #e2e5e3;
-      border-radius: 12px;
-
-      box-shadow:
-        0 5px 18px rgba(0, 0, 0, 0.08);
-    }
-
-    .search-card::before {
-      content: "";
-
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 5px;
-
-      background: #00c853;
-    }
-
-    .search-card-inner {
-      padding: 38px 38px 34px;
-    }
-
-
-    /* =========================================================
-       入力項目
-    ========================================================= */
-
-    .form-group {
-      margin-bottom: 25px;
-    }
-
-    .form-label {
-      display: block;
-
-      margin-bottom: 8px;
-
-      color: #333333;
-
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .required {
-      margin-left: 6px;
-      color: #00b84f;
-      font-size: 12px;
-    }
-
-    .form-control {
-      display: block;
-
-      width: 100%;
-      height: 48px;
-
-      padding: 0 14px;
-
-      background: #ffffff;
-
-      border: 1px solid #cccccc;
-      border-radius: 6px;
-
-      color: #333333;
-
-      font-size: 16px;
-
-      outline: none;
-
-      transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
-    }
-
-    .form-control:hover {
-      border-color: #999999;
-    }
-
-    .form-control:focus {
-      border-color: #00c853;
-
-      box-shadow:
-        0 0 0 3px rgba(0, 200, 83, 0.12);
-    }
-
-    select.form-control {
-      cursor: pointer;
-    }
-
-
-/* =========================================================
-   初度登録年月
-========================================================= */
-
-.date-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 12px;
+ .page {
   width: 100%;
-}
+  min-height: 100vh;
 
-.date-year,
-.date-month {
+  padding: 50px 20px;
+ }
+
+ .container {
+  width: 100%;
+  max-width: 620px;
+
+  margin: 0 auto;
+ }
+
+
+ /* =========================================================
+ タイトル
+ ========================================================= */
+
+ .page-title {
+  margin: 0;
+
+  text-align: center;
+
+  color: #222222;
+
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+ }
+
+ .page-description {
+  margin: 10px 0 30px;
+
+  text-align: center;
+
+  color: #666666;
+
+  font-size: 14px;
+  line-height: 1.7;
+ }
+
+
+ /* =========================================================
+ 検索カード
+ ========================================================= */
+
+ .search-card {
+  position: relative;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e5e3;
+  border-radius: 12px;
+
+  box-shadow:
+   0 5px 18px rgba(0, 0, 0, 0.08);
+ }
+
+ .search-card::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 5px;
+
+  background: #00c853;
+ }
+
+ .search-card-inner {
+  padding: 38px 38px 34px;
+ }
+
+
+ /* =========================================================
+ 入力項目
+ ========================================================= */
+
+ .form-group {
+  margin-bottom: 25px;
+ }
+
+ .form-label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #333333;
+
+  font-size: 14px;
+  font-weight: 700;
+ }
+
+ .required {
+  margin-left: 6px;
+
+  color: #00b84f;
+
+  font-size: 12px;
+ }
+
+ .form-control {
+  display: block;
+
+  width: 100%;
+  height: 48px;
+
+  padding: 0 14px;
+
+  background: #ffffff;
+
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+
+  color: #333333;
+
+  font-size: 16px;
+
+  outline: none;
+
+  transition:
+   border-color 0.2s,
+   box-shadow 0.2s;
+ }
+
+ .form-control:hover {
+  border-color: #999999;
+ }
+
+ .form-control:focus {
+  border-color: #00c853;
+
+  box-shadow:
+   0 0 0 3px rgba(0, 200, 83, 0.12);
+ }
+
+ select.form-control {
+  cursor: pointer;
+ }
+
+
+ /* =========================================================
+ 初度登録年月
+ ========================================================= */
+
+ .date-row {
+  display: grid;
+
+  grid-template-columns: 2fr 1fr;
+
+  gap: 12px;
+
+  width: 100%;
+ }
+
+ .date-year,
+ .date-month {
   width: 100%;
   min-width: 0;
-}
+ }
 
 
-    /* =========================================================
-       検索ボタン
-    ========================================================= */
+ /* =========================================================
+ 操作ボタン
+ ========================================================= */
 
-    .search-button-wrapper {
+ .search-button-wrapper {
   margin-top: 34px;
-}
+ }
 
 
-/* =========================================================
-   リセットボタン
-========================================================= */
+ /* =========================================================
+ リセットボタン
+ ========================================================= */
 
-.reset-button {
+ .reset-button {
   display: block;
 
   width: 100%;
@@ -223,725 +249,509 @@
   cursor: pointer;
 
   transition:
-    background-color 0.2s,
-    border-color 0.2s,
-    color 0.2s;
-}
+   background-color 0.2s,
+   border-color 0.2s,
+   color 0.2s;
+ }
 
-.reset-button:hover {
+ .reset-button:hover {
   background: #f5f5f5;
+
   border-color: #999999;
+
   color: #333333;
-}
+ }
 
-.reset-button:active {
+ .reset-button:active {
   background: #eeeeee;
-}
+ }
 
-    .search-button {
-      display: block;
 
-      width: 100%;
-      height: 52px;
+ /* =========================================================
+ 検索ボタン
+ ========================================================= */
 
-      border: none;
-      border-radius: 7px;
+ .search-button {
+  display: block;
 
-      background: #00c853;
+  width: 100%;
+  height: 52px;
 
-      color: #ffffff;
+  border: none;
+  border-radius: 7px;
 
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: 0.03em;
+  background: #00c853;
 
-      cursor: pointer;
+  color: #ffffff;
 
-      box-shadow:
-        0 3px 7px rgba(0, 200, 83, 0.25);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
 
-      transition:
-        background-color 0.2s,
-        transform 0.1s,
-        box-shadow 0.2s;
-    }
+  cursor: pointer;
 
-    .search-button:hover {
-      background: #00b84f;
+  box-shadow:
+   0 3px 7px rgba(0, 200, 83, 0.25);
 
-      box-shadow:
-        0 4px 9px rgba(0, 200, 83, 0.32);
-    }
+  transition:
+   background-color 0.2s,
+   transform 0.1s,
+   box-shadow 0.2s;
+ }
 
-    .search-button:active {
-      transform: translateY(1px);
-      box-shadow:
-        0 2px 4px rgba(0, 200, 83, 0.22);
-    }
+ .search-button:hover {
+  background: #00b84f;
 
+  box-shadow:
+   0 4px 9px rgba(0, 200, 83, 0.32);
+ }
 
-    /* =========================================================
-       メッセージ
-    ========================================================= */
+ .search-button:active {
+  transform: translateY(1px);
 
-    .message {
-      display: none;
+  box-shadow:
+   0 2px 4px rgba(0, 200, 83, 0.22);
+ }
 
-      margin-top: 22px;
-      padding: 14px 16px;
 
-      border-radius: 6px;
+ /* =========================================================
+ メッセージ
+ ========================================================= */
 
-      font-size: 14px;
-      line-height: 1.7;
-    }
+ .message {
+  display: none;
 
-    .message.error {
-      display: block;
+  margin-top: 22px;
+  padding: 14px 16px;
 
-      background: #fff2f2;
+  border-radius: 6px;
 
-      border: 1px solid #f2b8b8;
+  font-size: 14px;
+  line-height: 1.7;
+ }
 
-      color: #c62828;
-    }
+ .message.error {
+  display: block;
 
-    .message.success {
-      display: block;
+  background: #fff2f2;
 
-      background: #effaf3;
+  border: 1px solid #f2b8b8;
 
-      border: 1px solid #b7e6c8;
+  color: #c62828;
+ }
 
-      color: #16843d;
-    }
+ .message.success {
+  display: block;
 
+  background: #effaf3;
 
-    /* =========================================================
-       注意書き
-    ========================================================= */
+  border: 1px solid #b7e6c8;
 
-    .notice {
-      margin-top: 22px;
+  color: #16843d;
+ }
 
-      color: #777777;
 
-      font-size: 12px;
-      line-height: 1.7;
+ /* =========================================================
+ 注意書き
+ ========================================================= */
 
-      text-align: center;
-    }
+ .notice {
+  margin-top: 22px;
 
+  color: #777777;
 
-    /* =========================================================
-       スマートフォン
-    ========================================================= */
+  font-size: 12px;
+  line-height: 1.7;
 
-    @media (max-width: 600px) {
+  text-align: center;
+ }
 
-      .page {
-        padding: 30px 15px;
-      }
 
-      .page-title {
-        font-size: 24px;
-      }
+ /* =========================================================
+ スマートフォン
+ ========================================================= */
 
-      .page-description {
-        margin-bottom: 22px;
-      }
+ @media (max-width: 600px) {
 
-      .search-card-inner {
-        padding:
-          32px 22px
-          26px;
-      }
+  .page {
+   padding: 30px 15px;
+  }
 
-      .date-row {
-        gap: 8px;
-      }
+  .page-title {
+   font-size: 24px;
+  }
 
-    }
+  .page-description {
+   margin-bottom: 22px;
+  }
 
-    /* =========================================================
- コーションプレート読取
-========================================================= */
+  .search-card-inner {
+   padding:
+    32px 22px
+    26px;
+  }
 
-.ocr-section {
- margin-bottom: 30px;
- padding: 18px;
+  .date-row {
+   gap: 8px;
+  }
 
- background: #f7fbf8;
+ }
 
- border: 1px solid #cfe7d7;
- border-radius: 8px;
-}
+ </style>
 
-.ocr-title {
- margin: 0 0 6px;
-
- color: #333333;
-
- font-size: 16px;
- font-weight: 700;
-}
-
-.ocr-description {
- margin: 0 0 14px;
-
- color: #666666;
-
- font-size: 12px;
- line-height: 1.6;
-}
-
-.ocr-file-input {
- display: none;
-}
-
-.ocr-select-button,
-.ocr-read-button {
- display: block;
-
- width: 100%;
- height: 46px;
-
- border-radius: 7px;
-
- font-size: 14px;
- font-weight: 700;
-
- cursor: pointer;
-}
-
-.ocr-select-button {
- padding: 12px;
-
- background: #ffffff;
-
- border: 1px solid #00c853;
-
- color: #00a944;
-
- text-align: center;
-}
-
-.ocr-select-button:hover {
- background: #f0fff6;
-}
-
-.ocr-read-button {
- margin-top: 10px;
-
- background: #00c853;
-
- border: none;
-
- color: #ffffff;
-}
-
-.ocr-read-button:hover {
- background: #00b84f;
-}
-
-.ocr-read-button:disabled {
- background: #bbbbbb;
- cursor: not-allowed;
-}
-
-.ocr-preview {
- display: none;
-
- width: 100%;
- max-height: 280px;
-
- margin-top: 14px;
-
- border: 1px solid #dddddd;
- border-radius: 6px;
-
- object-fit: contain;
-}
-
-.ocr-status {
- display: none;
-
- margin-top: 12px;
- padding: 10px 12px;
-
- background: #fff8e1;
-
- border: 1px solid #ffe082;
- border-radius: 6px;
-
- color: #6d5700;
-
- font-size: 13px;
- line-height: 1.6;
-}
-
-.ocr-progress {
- display: none;
-
- width: 100%;
- height: 18px;
-
- margin-top: 10px;
-}
-
-    .ocr-crop-area {
- display: none;
- position: relative;
- width: 100%;
- margin-top: 14px;
- border: 1px solid #dddddd;
- border-radius: 6px;
- overflow: hidden;
- touch-action: none;
- user-select: none;
-}
-
-.ocr-crop-image {
- display: block;
- width: 100%;
- height: auto;
-}
-
-.ocr-selection {
- display: none;
- position: absolute;
- border: 3px solid #00c853;
- background: rgba(0, 200, 83, 0.12);
- pointer-events: none;
-}
-
-.ocr-crop-guide {
- display: none;
- margin-top: 8px;
- color: #555555;
- font-size: 12px;
- line-height: 1.6;
-}
-
-  </style>
 </head>
 
 
 <body>
 
-  <main class="page">
-
-    <div class="container">
-
-      <!-- =====================================================
-           タイトル
-      ====================================================== -->
-
-      <h1 class="page-title">
-        適Navi 車両検索
-      </h1>
-
-      <p class="page-description">
-        車両情報を入力して適合情報を検索します
-      </p>
-
-
-      <!-- =====================================================
-           検索フォーム
-      ====================================================== -->
-
-      <div class="search-card">
-
-        <div class="search-card-inner">
-
-<!-- コーションプレート読取 -->
-
-<div class="ocr-section">
-
- <p class="ocr-title">
- コーションプレート読取
- </p>
-
- <p class="ocr-description">
- 写真を選択し、写真上のコーションプレートを指またはマウスで囲んでください。
- </p>
-
- <label
- class="ocr-select-button"
- for="ocrImageInput"
- >
- 写真を撮影・選択
- </label>
-
- <input
- id="ocrImageInput"
- class="ocr-file-input"
- type="file"
- accept="image/*"
- capture="environment"
- >
-
- <div
- id="ocrCropArea"
- class="ocr-crop-area"
- >
-  <img
-   id="ocrCropImage"
-   class="ocr-crop-image"
-   alt="コーションプレート写真"
-  >
-
-  <div
-   id="ocrSelection"
-   class="ocr-selection"
-  ></div>
- </div>
-
- <div
- id="ocrCropGuide"
- class="ocr-crop-guide"
- >
- 写真上でコーションプレートを囲んでください。
- </div>
-
- <button
- id="ocrReadButton"
- class="ocr-read-button"
- type="button"
- disabled
- >
- 選択範囲を読み取る
- </button>
-
- <progress
- id="ocrProgress"
- class="ocr-progress"
- value="0"
- max="100"
- ></progress>
-
- <div
- id="ocrStatus"
- class="ocr-status"
- ></div>
-
-</div>
-
-<!-- メーカー -->
-
-          <div class="form-group">
-
-            <label
-              class="form-label"
-              for="maker"
-            >
-              メーカー
-              <span class="required">
-                必須
-              </span>
-            </label>
-
-            <select
-  id="maker"
-  class="form-control"
->
-  <option value="">
-  メーカーを選択してください
-</option>
-
-<option value="1">
-  トヨタ
-</option>
-
-<option value="2">
-  日産
-</option>
+ <main class="page">
 
-<option value="3">
-  ホンダ
-</option>
+  <div class="container">
 
-<option value="9">
-  ダイハツ
-</option>
 
-<option value="8">
-  スズキ
-</option>
+   <!-- =====================================================
+   タイトル
+   ====================================================== -->
 
-<option value="5">
-  マツダ
-</option>
+   <h1 class="page-title">
+    適Navi 車両検索
+   </h1>
 
-<option value="6">
-  三菱
-</option>
+   <p class="page-description">
+    車両情報を入力して適合情報を検索します
+   </p>
 
-<option value="4">
-  スバル
-</option>
 
-<option value="10">
-  レクサス
-</option>
+   <!-- =====================================================
+   検索フォーム
+   ====================================================== -->
 
-<option value="7">
-  いすず
-</option>
+   <div class="search-card">
 
-<option value="99">
-  外車
-</option>
-</select>
+    <div class="search-card-inner">
 
-          </div>
 
+     <!-- メーカー -->
 
-          <!-- 車名 -->
+     <div class="form-group">
 
-          <div class="form-group">
+      <label
+       class="form-label"
+       for="maker"
+      >
+       メーカー
 
-            <label
-              class="form-label"
-              for="carName"
-            >
-              車名
-              <span class="required">
-                必須
-              </span>
-            </label>
+       <span class="required">
+        必須
+       </span>
 
-            <input
-              id="carName"
-              class="form-control"
-              type="text"
-              placeholder="例：ハリアー"
-              autocomplete="off"
-            >
+      </label>
 
-          </div>
+      <select
+       id="maker"
+       class="form-control"
+      >
 
+       <option value="">
+        メーカーを選択してください
+       </option>
 
-          <!-- 型式 -->
+       <option value="1">
+        トヨタ
+       </option>
 
-          <div class="form-group">
+       <option value="2">
+        日産
+       </option>
 
-            <label
-              class="form-label"
-              for="model"
-            >
-              型式
-              <span class="required">
-                必須
-              </span>
-            </label>
+       <option value="3">
+        ホンダ
+       </option>
 
-            <input
-              id="model"
-              class="form-control"
-              type="text"
-              placeholder="例：6BA-MXUA80"
-              autocomplete="off"
-            >
+       <option value="9">
+        ダイハツ
+       </option>
 
-          </div>
+       <option value="8">
+        スズキ
+       </option>
 
+       <option value="5">
+        マツダ
+       </option>
 
-          <!-- 初度登録年月 -->
+       <option value="6">
+        三菱
+       </option>
 
-<div class="form-group">
+       <option value="4">
+        スバル
+       </option>
 
-  <label class="form-label">
+       <option value="10">
+        レクサス
+       </option>
 
-    初度登録年月
+       <option value="7">
+        いすず
+       </option>
 
-    <span class="required">
-      必須
-    </span>
+       <option value="99">
+        外車
+       </option>
 
-  </label>
+      </select>
 
+     </div>
 
-  <div class="date-row">
 
+     <!-- 車名 -->
 
-    <!-- 年 -->
+     <div class="form-group">
 
-    <select
-      id="registrationYear"
-      class="form-control date-year"
-    >
+      <label
+       class="form-label"
+       for="carName"
+      >
+       車名
 
-      <option value="">
-        年を選択してください
-      </option>
+       <span class="required">
+        必須
+       </span>
 
-    </select>
+      </label>
 
+      <input
+       id="carName"
+       class="form-control"
+       type="text"
+       placeholder="例：ハリアー"
+       autocomplete="off"
+      >
 
-    <!-- 月 -->
+     </div>
 
-    <select
-      id="registrationMonth"
-      class="form-control date-month"
-    >
 
-      <option value="">
-        月を選択
-      </option>
+     <!-- 型式 -->
 
-      <option value="1">1月</option>
-      <option value="2">2月</option>
-      <option value="3">3月</option>
-      <option value="4">4月</option>
-      <option value="5">5月</option>
-      <option value="6">6月</option>
-      <option value="7">7月</option>
-      <option value="8">8月</option>
-      <option value="9">9月</option>
-      <option value="10">10月</option>
-      <option value="11">11月</option>
-      <option value="12">12月</option>
+     <div class="form-group">
 
-    </select>
+      <label
+       class="form-label"
+       for="model"
+      >
+       型式
 
+       <span class="required">
+        必須
+       </span>
 
-  </div>
+      </label>
 
-</div>
+      <input
+       id="model"
+       class="form-control"
+       type="text"
+       placeholder="例：6BA-MXUA80"
+       autocomplete="off"
+      >
 
+     </div>
 
-<!-- 操作ボタン -->
 
-<div class="search-button-wrapper">
+     <!-- 初度登録年月 -->
 
- <!-- リセットボタン -->
+     <div class="form-group">
 
- <button
- id="resetButton"
- class="reset-button"
- type="button"
- >
- 入力内容をリセット
- </button>
+      <label class="form-label">
 
- <!-- 検索ボタン -->
+       初度登録年月
 
- <button
- id="searchButton"
- class="search-button"
- type="button"
- >
- 適Naviで検索
- </button>
+       <span class="required">
+        必須
+       </span>
 
-</div>
+      </label>
 
 
-          <!-- メッセージ -->
+      <div class="date-row">
 
-          <div
-            id="message"
-            class="message"
-          ></div>
 
+       <!-- 年 -->
 
-        </div>
+       <select
+        id="registrationYear"
+        class="form-control date-year"
+       >
+
+        <option value="">
+         年を選択してください
+        </option>
+
+       </select>
+
+
+       <!-- 月 -->
+
+       <select
+        id="registrationMonth"
+        class="form-control date-month"
+       >
+
+        <option value="">
+         月を選択
+        </option>
+
+        <option value="1">1月</option>
+        <option value="2">2月</option>
+        <option value="3">3月</option>
+        <option value="4">4月</option>
+        <option value="5">5月</option>
+        <option value="6">6月</option>
+        <option value="7">7月</option>
+        <option value="8">8月</option>
+        <option value="9">9月</option>
+        <option value="10">10月</option>
+        <option value="11">11月</option>
+        <option value="12">12月</option>
+
+       </select>
 
       </div>
 
+     </div>
 
-      <!-- 注意書き -->
 
-      <p class="notice">
-        AIによるマッチング検索です。<br>
-        検索結果は必ず車両情報と照合してください。
-      </p>
+     <!-- 操作ボタン -->
+
+     <div class="search-button-wrapper">
+
+
+      <!-- リセットボタン -->
+
+      <button
+       id="resetButton"
+       class="reset-button"
+       type="button"
+      >
+       入力内容をリセット
+      </button>
+
+
+      <!-- 検索ボタン -->
+
+      <button
+       id="searchButton"
+       class="search-button"
+       type="button"
+      >
+       適Naviで検索
+      </button>
+
+
+     </div>
+
+
+     <!-- メッセージ -->
+
+     <div
+      id="message"
+      class="message"
+     ></div>
 
 
     </div>
 
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js">
-    
-  </script>
-
-  <script>
-
-    'use strict';
+   </div>
 
 
-    // =========================================================
-    // 要素取得
-    // =========================================================
+   <!-- 注意書き -->
 
-    const maker =
-      document.getElementById('maker');
+   <p class="notice">
+    AIによるマッチング検索です。<br>
+    検索結果は必ず車両情報と照合してください。
+   </p>
 
-    const carName =
-      document.getElementById('carName');
 
-    const model =
-      document.getElementById('model');
+  </div>
 
-    const registrationYear =
-      document.getElementById('registrationYear');
+ </main>
 
-    const registrationMonth =
-  document.getElementById('registrationMonth');
 
-const resetButton =
-  document.getElementById('resetButton');
+ <script>
 
-const searchButton =
-  document.getElementById('searchButton');
+ 'use strict';
 
-    const ocrImageInput =
- document.getElementById('ocrImageInput');
 
-const ocrCropArea =
- document.getElementById('ocrCropArea');
+ // =========================================================
+ // 要素取得
+ // =========================================================
 
-const ocrCropImage =
- document.getElementById('ocrCropImage');
+ const maker =
+  document.getElementById(
+   'maker'
+  );
 
-const ocrSelection =
- document.getElementById('ocrSelection');
+ const carName =
+  document.getElementById(
+   'carName'
+  );
 
-const ocrCropGuide =
- document.getElementById('ocrCropGuide');
+ const model =
+  document.getElementById(
+   'model'
+  );
 
-const ocrReadButton =
- document.getElementById('ocrReadButton');
+ const registrationYear =
+  document.getElementById(
+   'registrationYear'
+  );
 
-const ocrProgress =
- document.getElementById('ocrProgress');
+ const registrationMonth =
+  document.getElementById(
+   'registrationMonth'
+  );
 
-const ocrStatus =
- document.getElementById('ocrStatus');
+ const resetButton =
+  document.getElementById(
+   'resetButton'
+  );
 
-let selectedOcrImage = null;
-let ocrPreviewUrl = '';
+ const searchButton =
+  document.getElementById(
+   'searchButton'
+  );
 
-    // =========================================================
-// 初度登録年
-// 西暦 + 和暦
-// =========================================================
+ const message =
+  document.getElementById(
+   'message'
+  );
 
-function getJapaneseYear(year) {
+
+ // =========================================================
+ // 初度登録年
+ // 西暦 + 和暦
+ // =========================================================
+
+ function getJapaneseYear(
+  year
+ ) {
 
   // 令和
   if (year >= 2019) {
 
-    const eraYear =
-      year - 2018;
+   const eraYear =
+    year - 2018;
 
-    if (eraYear === 1) {
-      return '令和元年';
-    }
+   if (eraYear === 1) {
+    return '令和元年';
+   }
 
-    return '令和' + eraYear + '年';
+   return (
+    '令和' +
+    eraYear +
+    '年'
+   );
 
   }
 
@@ -949,14 +759,18 @@ function getJapaneseYear(year) {
   // 平成
   if (year >= 1989) {
 
-    const eraYear =
-      year - 1988;
+   const eraYear =
+    year - 1988;
 
-    if (eraYear === 1) {
-      return '平成元年';
-    }
+   if (eraYear === 1) {
+    return '平成元年';
+   }
 
-    return '平成' + eraYear + '年';
+   return (
+    '平成' +
+    eraYear +
+    '年'
+   );
 
   }
 
@@ -964,1764 +778,370 @@ function getJapaneseYear(year) {
   // 昭和
   if (year >= 1926) {
 
-    const eraYear =
-      year - 1925;
+   const eraYear =
+    year - 1925;
 
-    if (eraYear === 1) {
-      return '昭和元年';
-    }
+   if (eraYear === 1) {
+    return '昭和元年';
+   }
 
-    return '昭和' + eraYear + '年';
+   return (
+    '昭和' +
+    eraYear +
+    '年'
+   );
 
   }
 
 
   return '';
 
-}
+ }
 
 
-// =========================================================
-// 年プルダウンを作成
-// =========================================================
+ // =========================================================
+ // 年プルダウンを作成
+ // =========================================================
 
-function createRegistrationYearOptions() {
+ function createRegistrationYearOptions() {
 
   const currentYear =
-    new Date().getFullYear();
+   new Date().getFullYear();
 
   for (
-    let year = currentYear;
-    year >= 1926;
-    year -= 1
+   let year = currentYear;
+   year >= 1926;
+   year -= 1
   ) {
 
-    const option =
-      document.createElement('option');
-
-    // 実際に検索で使用する値
-    option.value =
-      String(year);
-
-
-    // 画面に表示する文字
-    option.textContent =
-      year +
-      '年（' +
-      getJapaneseYear(year) +
-      '）';
-
-
-    registrationYear.appendChild(
-      option
+   const option =
+    document.createElement(
+     'option'
     );
+
+   // 実際に検索で使用する値
+   option.value =
+    String(year);
+
+
+   // 画面に表示する文字
+   option.textContent =
+    year +
+    '年（' +
+    getJapaneseYear(year) +
+    '）';
+
+
+   registrationYear.appendChild(
+    option
+   );
 
   }
 
-}
+ }
 
 
-// 年プルダウンを生成
-createRegistrationYearOptions();
-
-    const message =
-      document.getElementById('message');
+ // 年プルダウンを生成
+ createRegistrationYearOptions();
 
 
-    // =========================================================
-    // メッセージ表示
-    // =========================================================
+ // =========================================================
+ // メッセージ表示
+ // =========================================================
 
-    function showMessage(
- text,
- type
+ function showMessage(
+  text,
+  type
  ) {
 
- message.innerHTML = text;
+  message.innerHTML =
+   text;
 
- message.className =
- 'message ' + type;
+  message.className =
+   'message ' + type;
 
-}
+ }
 
 
-    // =========================================================
-    // メーカー名取得
-    // =========================================================
+ // =========================================================
+ // メーカー名取得
+ // =========================================================
 
-    function getMakerName() {
+ function getMakerName() {
 
-      if (
-        maker.selectedIndex < 0
-      ) {
-        return '';
-      }
+  if (
+   maker.selectedIndex < 0
+  ) {
+   return '';
+  }
 
-      return maker.options[
-        maker.selectedIndex
-      ].text.trim();
+  return maker.options[
+   maker.selectedIndex
+  ].text.trim();
 
-    }
+ }
 
-    // =========================================================
-// 入力内容をリセット
-// =========================================================
 
-resetButton.addEventListener(
+ // =========================================================
+ // 入力内容をリセット
+ // =========================================================
+
+ resetButton.addEventListener(
   'click',
   function () {
 
-    // メーカーを初期状態へ
-    maker.value = '';
+   // メーカーを初期状態へ
+   maker.value = '';
 
-    // 車名を空欄へ
-    carName.value = '';
+   // 車名を空欄へ
+   carName.value = '';
 
-    // 型式を空欄へ
-    model.value = '';
+   // 型式を空欄へ
+   model.value = '';
 
-    // 初度登録年を初期状態へ
-    registrationYear.value = '';
+   // 初度登録年を初期状態へ
+   registrationYear.value = '';
 
-    // 初度登録月を初期状態へ
-    registrationMonth.value = '';
+   // 初度登録月を初期状態へ
+   registrationMonth.value = '';
 
-    // OCR画像選択をリセット
-ocrImageInput.value = '';
+   // エラー・成功メッセージを消す
+   message.textContent = '';
+   message.className = 'message';
 
-selectedOcrImage = null;
+   // メーカーへフォーカス
+   maker.focus();
 
-if (ocrPreviewUrl) {
-
- URL.revokeObjectURL(
- ocrPreviewUrl
+  }
  );
 
- ocrPreviewUrl = '';
 
-}
+ // =========================================================
+ // 検索ボタン
+ // =========================================================
 
-ocrCropImage.removeAttribute(
- 'src'
-);
+ searchButton.addEventListener(
+  'click',
+  function () {
 
-ocrCropArea.style.display =
- 'none';
 
-ocrCropGuide.style.display =
- 'none';
+   // -----------------------------------------------------
+   // 入力値取得
+   // -----------------------------------------------------
 
-ocrSelection.style.display =
- 'none';
+   const makerValue =
+    maker.value;
 
-cropWidth = 0;
-cropHeight = 0;
-    
-ocrProgress.value =
- 0;
+   const makerName =
+    getMakerName();
 
-ocrProgress.style.display =
- 'none';
+   const carNameValue =
+    carName.value.trim();
 
-ocrStatus.textContent =
- '';
+   const modelValue =
+    model.value.trim();
 
-ocrStatus.style.display =
- 'none';
+   const year =
+    registrationYear.value.trim();
 
-ocrReadButton.disabled =
- true;
+   const month =
+    registrationMonth.value.trim();
 
-    // エラー・成功メッセージを消す
-    message.textContent = '';
-    message.className = 'message';
 
-    // メーカーへフォーカス
+   // -----------------------------------------------------
+   // 入力確認
+   // -----------------------------------------------------
+
+   if (!makerValue) {
+
+    showMessage(
+     'メーカーを選択してください。',
+     'error'
+    );
+
     maker.focus();
 
-  }
-);
+    return;
 
-    // =========================================================
-// 写真を選択したとき
-// =========================================================
+   }
 
-ocrImageInput.addEventListener(
- 'change',
- function () {
 
- const file =
- ocrImageInput.files[0];
+   if (!carNameValue) {
 
- if (!file) {
- return;
- }
+    showMessage(
+     '車名を入力してください。',
+     'error'
+    );
 
- selectedOcrImage =
- file;
+    carName.focus();
 
- if (ocrPreviewUrl) {
+    return;
 
- URL.revokeObjectURL(
- ocrPreviewUrl
- );
+   }
 
- }
 
- ocrPreviewUrl =
- URL.createObjectURL(file);
+   if (!modelValue) {
 
- ocrPreview.src =
- ocrPreviewUrl;
+    showMessage(
+     '型式を入力してください。',
+     'error'
+    );
 
- ocrPreview.style.display =
- 'block';
+    model.focus();
 
- ocrReadButton.disabled =
- false;
+    return;
 
- ocrProgress.value =
- 0;
+   }
 
- ocrProgress.style.display =
- 'none';
 
- ocrStatus.textContent =
- '写真を選択しました。「写真から読み取る」を押してください。';
+   if (!year) {
 
- ocrStatus.style.display =
- 'block';
+    showMessage(
+     '初度登録年を選択してください。',
+     'error'
+    );
 
- }
-);
+    registrationYear.focus();
 
+    return;
 
-// =========================================================
-// 写真から文字を読み取る
-// =========================================================
+   }
 
-ocrReadButton.addEventListener(
- 'click',
- async function () {
 
- if (!selectedOcrImage) {
+   if (!month) {
 
- ocrStatus.textContent =
- '先に写真を選択してください。';
+    showMessage(
+     '初度登録月を選択してください。',
+     'error'
+    );
 
- ocrStatus.style.display =
- 'block';
+    registrationMonth.focus();
 
- return;
+    return;
 
- }
+   }
 
- if (typeof Tesseract === 'undefined') {
 
- ocrStatus.textContent =
- 'OCR機能を読み込めませんでした。インターネット接続を確認してください。';
+   // -----------------------------------------------------
+   // 外車は検索対象外
+   // -----------------------------------------------------
 
- ocrStatus.style.display =
- 'block';
+   if (
+    Number(makerValue) === 99
+   ) {
 
- return;
+    showMessage(
+     '外車は適Naviの検索対象外です。',
+     'error'
+    );
 
- }
+    maker.focus();
 
- ocrReadButton.disabled =
- true;
+    return;
 
- ocrProgress.value =
- 0;
+   }
 
- ocrProgress.style.display =
- 'block';
 
- ocrStatus.textContent =
- '写真をOCR用に加工しています。';
+   // -----------------------------------------------------
+   // 適Naviへ渡す車両データ
+   // 既存ブックマークレットと同じ項目名にする
+   // -----------------------------------------------------
 
- ocrStatus.style.display =
- 'block';
+   const vehicle = {
 
- try {
-
- const sourceImage =
- await loadOcrImage(
- selectedOcrImage
- );
+    source:
+     'github-vehicle-search',
 
- const processedCanvas =
- createOcrImage(
- sourceImage
- );
+    type:
+     'TEKIGNAVI_SEARCH',
 
- // OCRへ渡す加工後画像をプレビュー表示
- ocrPreview.src =
- processedCanvas.toDataURL(
- 'image/png'
- );
+    makerName:
+     makerName,
 
- ocrStatus.textContent =
- '加工後の画像から型式を読み取っています。';
+    makerId:
+     Number(makerValue),
 
- const ocrResult =
- await Tesseract.recognize(
- processedCanvas,
- 'eng',
- {
- logger:
- function (ocrMessage) {
+    carKeyword:
+     carNameValue,
 
- if (
- typeof ocrMessage.progress ===
- 'number'
- ) {
+    model:
+     modelValue,
 
- const percent =
- Math.round(
- ocrMessage.progress * 100
- );
+    date:
+     Number(year) +
+     '/' +
+     Number(month) +
+     '/1',
 
- ocrProgress.value =
- percent;
+    sentAt:
+     new Date().toISOString()
 
- if (
- ocrMessage.status ===
- 'recognizing text'
- ) {
+   };
 
- ocrStatus.textContent =
- '型式を読み取っています。' +
- percent +
- '％';
 
- }
-
- }
-
- }
- }
- );
-
- const rawText =
- ocrResult.data.text || '';
-
- console.log(
- 'OCR読取結果:',
- rawText
- );
-
- const vehicleInfo =
- extractVehicleInfo(
- rawText
- );
-
- if (vehicleInfo.model) {
-
- model.value =
- vehicleInfo.model;
-
- }
-
- if (vehicleInfo.makerId) {
-
- maker.value =
- vehicleInfo.makerId;
-
- }
-
- if (vehicleInfo.model) {
-
- ocrStatus.textContent =
- '読み取りが完了しました。\n' +
- 'メーカー：' +
- (
- vehicleInfo.makerId
- ? getMakerName()
- : '判定できませんでした'
- ) +
- '\n' +
- '型式：' +
- vehicleInfo.model +
- '\n' +
- '内容を確認してください。';
-
- } else {
-
- ocrStatus.textContent =
- '型式を取得できませんでした。加工後の画像を確認してください。';
-
- }
-
- ocrProgress.value =
- 100;
-
- } catch (error) {
-
- console.error(
- 'OCRエラー:',
- error
- );
-
- ocrStatus.textContent =
- '読み取りに失敗しました：' +
- (
- error.message ||
- String(error)
- );
-
- } finally {
-
- ocrReadButton.disabled =
- false;
-
- }
-
- }
-);
-
-
-// =========================================================
-// 写真ファイルを読み込む
-// =========================================================
-
-function loadOcrImage(
- file
-) {
-
- return new Promise(
- function (
- resolve,
- reject
- ) {
-
- const image =
- new Image();
-
- const url =
- URL.createObjectURL(file);
-
- image.onload =
- function () {
-
- URL.revokeObjectURL(
- url
- );
-
- resolve(
- image
- );
-
- };
-
- image.onerror =
- function () {
-
- URL.revokeObjectURL(
- url
- );
-
- reject(
- new Error(
- '写真を読み込めませんでした。'
- )
- );
-
- };
-
- image.src =
- url;
-
- }
- );
-
-}
-
-
-// =========================================================
-// OCR用画像を作成
-// 写真中央部を切り出し、拡大・コントラスト強調する
-// =========================================================
-
-function createOcrImage(
- image
-) {
-
- /*
-  * 今回の写真では、プレートが画像中央付近にあります。
-  * 画像全体の中央60％を切り出します。
-  */
-
- const cropWidth =
- Math.round(
- image.naturalWidth * 0.60
- );
-
- const cropHeight =
- Math.round(
- image.naturalHeight * 0.35
- );
-
- const cropX =
- Math.round(
- (
- image.naturalWidth -
- cropWidth
- ) /
- 2
- );
-
- const cropY =
- Math.round(
- image.naturalHeight * 0.28
- );
-
- const scale =
- 4;
-
- const canvas =
- document.createElement(
- 'canvas'
- );
-
- canvas.width =
- cropWidth * scale;
-
- canvas.height =
- cropHeight * scale;
-
- const context =
- canvas.getContext(
- '2d',
- {
- willReadFrequently:
- true
- }
- );
-
- context.imageSmoothingEnabled =
- true;
-
- context.imageSmoothingQuality =
- 'high';
-
- context.drawImage(
- image,
-
- cropX,
- cropY,
- cropWidth,
- cropHeight,
-
- 0,
- 0,
- canvas.width,
- canvas.height
- );
-
- const imageData =
- context.getImageData(
- 0,
- 0,
- canvas.width,
- canvas.height
- );
-
- const pixels =
- imageData.data;
-
- for (
- let index = 0;
- index < pixels.length;
- index += 4
- ) {
-
- const red =
- pixels[index];
-
- const green =
- pixels[index + 1];
-
- const blue =
- pixels[index + 2];
-
- let gray =
- (
- red * 0.299
- ) +
- (
- green * 0.587
- ) +
- (
- blue * 0.114
- );
-
- /*
-  * 黒いプレートの白文字を強調する。
-  * 完全な二値化はせず、文字の輪郭を残す。
-  */
- gray =
- (
- gray - 100
- ) *
- 2.4 +
- 150;
-
- gray =
- Math.max(
- 0,
- Math.min(
- 255,
- gray
- )
- );
-
- pixels[index] =
- gray;
-
- pixels[index + 1] =
- gray;
-
- pixels[index + 2] =
- gray;
-
- }
-
- context.putImageData(
- imageData,
- 0,
- 0
- );
-
- return canvas;
-
-}
-
-
-// =========================================================
-// OCR結果からメーカーと型式を抽出
-// =========================================================
-
-function extractVehicleInfo(
- rawText
-) {
-
- let text =
- rawText
- .toUpperCase()
-
- .replace(
- /[―ー‐‑–—−]/g,
- '-'
- )
-
- .replace(
- /\s*-\s*/g,
- '-'
- )
-
- .replace(
- /\s+/g,
- ' '
- )
-
- .trim();
-
- /*
-  * 型式周辺で起こりやすい誤認識だけ補正
-  */
- text =
- text
- .replace(
- /\bSBA-/g,
- '5BA-'
- )
-
- .replace(
- /\bG8S\b/g,
- 'GB5'
- )
-
- .replace(
- /\bGBS\b/g,
- 'GB5'
- );
-
- const compactText =
- text.replace(
- /\s+/g,
- ''
- );
-
- const modelMatch =
- compactText.match(
- /(?:[345678]BA|[345678]AA|DAA|DBA|CBA|ABA|CAA|DLA|LA|TA|UA)-[A-Z0-9]{2,10}/
- );
-
- const vehicleInfo = {
-
- makerId:
- '',
-
- model:
- ''
-
- };
-
- if (modelMatch) {
-
- vehicleInfo.model =
- modelMatch[0];
-
- }
-
- /*
-  * 今回取得した5BA-GB5はホンダ車。
-  * 日本語会社名をOCRできなくてもメーカーを設定する。
-  */
- if (
- vehicleInfo.model ===
- '5BA-GB5'
- ) {
-
- vehicleInfo.makerId =
- '3';
-
- }
-
- /*
-  * OCRがHONDAを取得できた場合
-  */
- if (
- text.includes(
- 'HONDA'
- )
- ) {
-
- vehicleInfo.makerId =
- '3';
-
- }
-
- console.log(
- 'OCR正規化後:',
- text
- );
-
- console.log(
- '抽出結果:',
- vehicleInfo
- );
-
- return vehicleInfo;
-
-}
-
-    // =========================================================
-// OCR範囲選択
-// =========================================================
-
-let cropStartX = 0;
-let cropStartY = 0;
-
-let cropX = 0;
-let cropY = 0;
-let cropWidth = 0;
-let cropHeight = 0;
-
-let cropSelecting = false;
-
-
-// =========================================================
-// 写真選択
-// =========================================================
-
-ocrImageInput.addEventListener(
- 'change',
- function () {
-
- const file =
- ocrImageInput.files[0];
-
- if (!file) {
-  return;
- }
-
- selectedOcrImage = file;
-
- if (ocrPreviewUrl) {
-  URL.revokeObjectURL(ocrPreviewUrl);
- }
-
- ocrPreviewUrl =
- URL.createObjectURL(file);
-
- ocrCropImage.src =
- ocrPreviewUrl;
-
- ocrCropArea.style.display =
- 'block';
-
- ocrCropGuide.style.display =
- 'block';
-
- ocrSelection.style.display =
- 'none';
-
- ocrReadButton.disabled =
- true;
-
- cropWidth = 0;
- cropHeight = 0;
-
- ocrStatus.textContent =
- '写真上でコーションプレートを囲んでください。';
-
- ocrStatus.style.display =
- 'block';
-
- }
-);
-
-
-// =========================================================
-// ポインター位置取得
-// =========================================================
-
-function getCropPoint(event) {
-
- const rect =
- ocrCropArea.getBoundingClientRect();
-
- return {
-  x:
-   Math.max(
-    0,
-    Math.min(
-     rect.width,
-     event.clientX - rect.left
-    )
-   ),
-
-  y:
-   Math.max(
-    0,
-    Math.min(
-     rect.height,
-     event.clientY - rect.top
-    )
-   )
- };
-
-}
-
-
-// =========================================================
-// 範囲選択開始
-// =========================================================
-
-ocrCropArea.addEventListener(
- 'pointerdown',
- function (event) {
-
- event.preventDefault();
-
- const point =
- getCropPoint(event);
-
- cropStartX = point.x;
- cropStartY = point.y;
-
- cropX = point.x;
- cropY = point.y;
-
- cropWidth = 0;
- cropHeight = 0;
-
- cropSelecting = true;
-
- ocrCropArea.setPointerCapture(
-  event.pointerId
- );
-
- ocrSelection.style.left =
-  cropX + 'px';
-
- ocrSelection.style.top =
-  cropY + 'px';
-
- ocrSelection.style.width =
-  '0px';
-
- ocrSelection.style.height =
-  '0px';
-
- ocrSelection.style.display =
-  'block';
-
- }
-);
-
-
-// =========================================================
-// 範囲選択中
-// =========================================================
-
-ocrCropArea.addEventListener(
- 'pointermove',
- function (event) {
-
- if (!cropSelecting) {
-  return;
- }
-
- const point =
- getCropPoint(event);
-
- cropX =
- Math.min(
-  cropStartX,
-  point.x
- );
-
- cropY =
- Math.min(
-  cropStartY,
-  point.y
- );
-
- cropWidth =
- Math.abs(
-  point.x - cropStartX
- );
-
- cropHeight =
- Math.abs(
-  point.y - cropStartY
- );
-
- ocrSelection.style.left =
-  cropX + 'px';
-
- ocrSelection.style.top =
-  cropY + 'px';
-
- ocrSelection.style.width =
-  cropWidth + 'px';
-
- ocrSelection.style.height =
-  cropHeight + 'px';
-
- }
-);
-
-
-// =========================================================
-// 範囲選択終了
-// =========================================================
-
-ocrCropArea.addEventListener(
- 'pointerup',
- finishCropSelection
-);
-
-ocrCropArea.addEventListener(
- 'pointercancel',
- finishCropSelection
-);
-
-
-function finishCropSelection(
- event
-) {
-
- if (!cropSelecting) {
-  return;
- }
-
- cropSelecting = false;
-
- try {
-
-  ocrCropArea.releasePointerCapture(
-   event.pointerId
-  );
-
- } catch (error) {
-  // 何もしない
- }
-
- if (
-  cropWidth < 20 ||
-  cropHeight < 20
- ) {
-
-  ocrReadButton.disabled =
-   true;
-
-  ocrStatus.textContent =
-   '範囲が小さすぎます。プレート全体を囲んでください。';
-
-  return;
-
- }
-
- ocrReadButton.disabled =
-  false;
-
- ocrStatus.textContent =
-  '選択できました。「選択範囲を読み取る」を押してください。';
-
-}
-
-
-// =========================================================
-// 選択範囲を高解像度で切り出す
-// =========================================================
-
-function createCropCanvas() {
-
- const displayedRect =
- ocrCropImage.getBoundingClientRect();
-
- const scaleX =
- ocrCropImage.naturalWidth /
- displayedRect.width;
-
- const scaleY =
- ocrCropImage.naturalHeight /
- displayedRect.height;
-
-
- const sourceX =
- Math.round(
-  cropX * scaleX
- );
-
- const sourceY =
- Math.round(
-  cropY * scaleY
- );
-
- const sourceWidth =
- Math.round(
-  cropWidth * scaleX
- );
-
- const sourceHeight =
- Math.round(
-  cropHeight * scaleY
- );
-
-
- /*
-  * OCRしやすい大きさまで拡大
-  */
- const targetScale =
- 3;
-
-
- const canvas =
- document.createElement(
-  'canvas'
- );
-
- canvas.width =
- sourceWidth * targetScale;
-
- canvas.height =
- sourceHeight * targetScale;
-
-
- const context =
- canvas.getContext(
-  '2d',
-  {
-   willReadFrequently:
-    true
-  }
- );
-
-
- context.imageSmoothingEnabled =
- true;
-
- context.imageSmoothingQuality =
- 'high';
-
-
- context.drawImage(
-  ocrCropImage,
-
-  sourceX,
-  sourceY,
-  sourceWidth,
-  sourceHeight,
-
-  0,
-  0,
-  canvas.width,
-  canvas.height
- );
-
-
- return canvas;
-
-}
-
-
-// =========================================================
-// OCR用画像加工
-// =========================================================
-
-function preprocessCropCanvas(
- sourceCanvas
-) {
-
- const canvas =
- document.createElement(
-  'canvas'
- );
-
- canvas.width =
- sourceCanvas.width;
-
- canvas.height =
- sourceCanvas.height;
-
-
- const context =
- canvas.getContext(
-  '2d',
-  {
-   willReadFrequently:
-    true
-  }
- );
-
-
- context.drawImage(
-  sourceCanvas,
-  0,
-  0
- );
-
-
- const imageData =
- context.getImageData(
-  0,
-  0,
-  canvas.width,
-  canvas.height
- );
-
-
- const pixels =
- imageData.data;
-
-
- for (
-  let i = 0;
-  i < pixels.length;
-  i += 4
- ) {
-
-  const gray =
-   (
-    pixels[i] * 0.299
-   ) +
-   (
-    pixels[i + 1] * 0.587
-   ) +
-   (
-    pixels[i + 2] * 0.114
+   console.log(
+    '適Naviへ渡す車両情報:',
+    vehicle
    );
 
 
-  /*
-   * 黒プレート＋白文字向け。
-   * 暗部と文字の差を強める。
-   */
-  const corrected =
-   gray > 105
-   ? 255
-   : 0;
-
-
-  pixels[i] =
-   corrected;
-
-  pixels[i + 1] =
-   corrected;
-
-  pixels[i + 2] =
-   corrected;
-
- }
-
-
- context.putImageData(
-  imageData,
-  0,
-  0
- );
-
-
- return canvas;
-
-}
-
-
-// =========================================================
-// 選択範囲をOCR
-// =========================================================
-
-ocrReadButton.addEventListener(
- 'click',
- async function () {
-
- if (
-  cropWidth < 20 ||
-  cropHeight < 20
- ) {
-
-  ocrStatus.textContent =
-   '先にプレートを囲んでください。';
-
-  return;
-
- }
-
-
- if (
-  typeof Tesseract ===
-  'undefined'
- ) {
-
-  ocrStatus.textContent =
-   'OCR機能を読み込めませんでした。';
-
-  return;
-
- }
-
-
- ocrReadButton.disabled =
-  true;
-
- ocrProgress.style.display =
-  'block';
-
- ocrProgress.value =
-  0;
-
- ocrStatus.textContent =
-  'プレート部分を読み取っています。';
-
-
- try {
-
-  const originalCrop =
-   createCropCanvas();
-
-
-  /*
-   * 加工前画像と二値化画像の2種類をOCRする。
-   */
-  const processedCrop =
-   preprocessCropCanvas(
-    originalCrop
-   );
-
-
-  const rawResult =
-   await Tesseract.recognize(
-    originalCrop,
-    'eng',
-    {
-     logger:
-      function (message) {
-
-       if (
-        message.status ===
-        'recognizing text'
-       ) {
-
-        const percent =
-         Math.round(
-          message.progress *
-          50
-         );
-
-        ocrProgress.value =
-         percent;
-
-        ocrStatus.textContent =
-         'プレートを読み取っています。' +
-         percent +
-         '％';
-
-       }
-
-      }
-    }
-   );
-
-
-  const processedResult =
-   await Tesseract.recognize(
-    processedCrop,
-    'eng',
-    {
-     logger:
-      function (message) {
-
-       if (
-        message.status ===
-        'recognizing text'
-       ) {
-
-        const percent =
-         50 +
-         Math.round(
-          message.progress *
-          50
-         );
-
-        ocrProgress.value =
-         percent;
-
-        ocrStatus.textContent =
-         '型式を確認しています。' +
-         percent +
-         '％';
-
-       }
-
-      }
-    }
-   );
-
-
-  const rawText =
-   (
-    rawResult.data.text ||
-    ''
-   ) +
-   '\n' +
-   (
-    processedResult.data.text ||
-    ''
-   );
-
-
-  console.log(
-   'プレートOCR結果:',
-   rawText
-  );
-
-
-  const vehicleInfo =
-   extractPlateVehicleInfo(
-    rawText
-   );
-
-
-  if (vehicleInfo.model) {
-
-   model.value =
-    vehicleInfo.model;
-
-  }
-
-
-  if (vehicleInfo.makerId) {
-
-   maker.value =
-    vehicleInfo.makerId;
-
-  }
-
-
-  if (vehicleInfo.model) {
-
-   ocrStatus.textContent =
-    '読み取り完了\n' +
-    'メーカー：' +
-    (
-     vehicleInfo.makerId
-     ? getMakerName()
-     : '要確認'
-    ) +
-    '\n' +
-    '型式：' +
-    vehicleInfo.model;
-
-  } else {
-
-   ocrStatus.textContent =
-    '型式を取得できませんでした。プレートの文字部分をもう少し狭く囲んでください。';
-
-  }
-
-
-  ocrProgress.value =
-   100;
-
-
- } catch (error) {
-
-  console.error(
-   'OCRエラー:',
-   error
-  );
-
-  ocrStatus.textContent =
-   'OCR処理に失敗しました：' +
-   (
-    error.message ||
-    String(error)
-   );
-
- } finally {
-
-  ocrReadButton.disabled =
-   false;
-
- }
-
- }
-);
-
-
-// =========================================================
-// 型式抽出
-// =========================================================
-
-function extractPlateVehicleInfo(
- rawText
-) {
-
- let text =
- rawText
- .toUpperCase()
-
- .replace(
-  /[―ー‐‑–—−]/g,
-  '-'
- )
-
- .replace(
-  /\s*-\s*/g,
-  '-'
- )
-
- .replace(
-  /\s+/g,
-  ' '
- )
-
- .trim();
-
-
- /*
-  * OCR特有の誤読を補正
-  */
- text =
- text
-
- .replace(
-  /\bSBA-/g,
-  '5BA-'
- )
-
- .replace(
-  /\bS8A-/g,
-  '5BA-'
- )
-
- .replace(
-  /\bG8S\b/g,
-  'GB5'
- )
-
- .replace(
-  /\bGBS\b/g,
-  'GB5'
- );
-
-
- const compact =
- text.replace(
-  /\s+/g,
-  ''
- );
-
-
- const match =
- compact.match(
-  /(?:[345678]BA|[345678]AA|DAA|DBA|CBA|ABA|CAA|DLA|LA|TA|UA)-[A-Z0-9]{2,10}/
- );
-
-
- const result = {
-
-  model:
-   '',
-
-  makerId:
-   ''
-
- };
-
-
- if (match) {
-
-  result.model =
-   match[0];
-
- }
-
-
- /*
-  * 今回のフリード
-  */
- if (
-  result.model ===
-  '5BA-GB5'
- ) {
-
-  result.makerId =
-   '3';
-
- }
-
-
- return result;
-
-}
-
-    // =========================================================
-    // 検索ボタン
-    // =========================================================
-
-    searchButton.addEventListener(
-      'click',
-      function () {
-
-
-        // -----------------------------------------------------
-        // 入力値取得
-        // -----------------------------------------------------
-
-        const makerValue =
-          maker.value;
-
-        const makerName =
-          getMakerName();
-
-        const carNameValue =
-          carName.value.trim();
-
-        const modelValue =
-          model.value.trim();
-
-        const year =
-          registrationYear.value.trim();
-
-        const month =
-          registrationMonth.value.trim();
-
-
-        // -----------------------------------------------------
-        // 入力確認
-        // -----------------------------------------------------
-
-        if (!makerValue) {
-
-          showMessage(
-            'メーカーを選択してください。',
-            'error'
-          );
-
-          maker.focus();
-
-          return;
-
-        }
-
-
-        if (!carNameValue) {
-
-          showMessage(
-            '車名を入力してください。',
-            'error'
-          );
-
-          carName.focus();
-
-          return;
-
-        }
-
-
-        if (!modelValue) {
-
-          showMessage(
-            '型式を入力してください。',
-            'error'
-          );
-
-          model.focus();
-
-          return;
-
-        }
-
-
-        if (!year) {
-
-  showMessage(
-    '初度登録年を選択してください。',
-    'error'
-  );
-
-  registrationYear.focus();
-
-  return;
-
-}
-
-
-        if (!month) {
-
-  showMessage(
-    '初度登録月を選択してください。',
-    'error'
-  );
-
-  registrationMonth.focus();
-
-  return;
-
-}
-
-
-// -----------------------------------------------------
-// 外車は検索対象外
-// -----------------------------------------------------
-
-if (Number(makerValue) === 99) {
-
-  showMessage(
-    '外車は適Naviの検索対象外です。',
-    'error'
-  );
-
-  maker.focus();
-
-  return;
-
-}
-
-
-// -----------------------------------------------------
-// 適Naviへ渡す車両データ
-// 既存ブックマークレットと同じ項目名にする
-// -----------------------------------------------------
-
-const vehicle = {
-
-  source:
-    'github-vehicle-search',
-
-  type:
-    'TEKIGNAVI_SEARCH',
-
-  makerName:
-    makerName,
-
-  makerId:
-    Number(makerValue),
-
-  carKeyword:
-    carNameValue,
-
-  model:
-    modelValue,
-
-  date:
-    Number(year) +
-    '/' +
-    Number(month) +
-    '/1',
-
-  sentAt:
-    new Date().toISOString()
-
-};
-
-
-console.log(
-  '適Naviへ渡す車両情報:',
-  vehicle
-);
-
-
-// -----------------------------------------------------
-// 車両情報をURLのハッシュへ格納
-// -----------------------------------------------------
-
-const encodedVehicle =
-  encodeURIComponent(
-    JSON.stringify(vehicle)
-  );
-
-
-const tekignaviUrl =
-  'https://eneos.cla-ss.com/searches/maker/' +
-  '#kintoneVehicle=' +
-  encodedVehicle;
-
-
-// -----------------------------------------------------
-// 適Naviを開く
-// 同じ名前のタブを再利用する
-// -----------------------------------------------------
-
-const tekignaviWindow =
-  window.open(
-    tekignaviUrl,
-    'ENEOS_TEKIGNAVI'
-  );
-
-
-if (!tekignaviWindow) {
-
-  showMessage(
-    '適Naviを開けませんでした。ポップアップブロックを解除してください。',
-    'error'
-  );
-
-  return;
-
-}
-
-
-// -----------------------------------------------------
-// GitHub側の案内
-// -----------------------------------------------------
-
-showMessage(
-  '車両情報を適Naviへ送りました。<br>' +
-  '適Naviの画面でブックマークレットを実行してください。',
-  'success'
-);
-      }
+   // -----------------------------------------------------
+   // 車両情報をURLのハッシュへ格納
+   // -----------------------------------------------------
+
+   const encodedVehicle =
+    encodeURIComponent(
+     JSON.stringify(
+      vehicle
+     )
     );
 
 
-  </script>
+   const tekignaviUrl =
+    'https://eneos.cla-ss.com/searches/maker/' +
+    '#kintoneVehicle=' +
+    encodedVehicle;
+
+
+   // -----------------------------------------------------
+   // 適Naviを開く
+   // 同じ名前のタブを再利用する
+   // -----------------------------------------------------
+
+   const tekignaviWindow =
+    window.open(
+     tekignaviUrl,
+     'ENEOS_TEKIGNAVI'
+    );
+
+
+   if (!tekignaviWindow) {
+
+    showMessage(
+     '適Naviを開けませんでした。ポップアップブロックを解除してください。',
+     'error'
+    );
+
+    return;
+
+   }
+
+
+   // -----------------------------------------------------
+   // GitHub側の案内
+   // -----------------------------------------------------
+
+   showMessage(
+    '車両情報を適Naviへ送りました。<br>' +
+    '適Naviの画面でブックマークレットを実行してください。',
+    'success'
+   );
+
+  }
+ );
+
+ </script>
 
 </body>
+
 </html>
