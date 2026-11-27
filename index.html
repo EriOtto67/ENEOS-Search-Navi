@@ -577,7 +577,7 @@
 
 </div>
 
-          <!-- メーカー -->
+<!-- メーカー -->
 
           <div class="form-group">
 
@@ -1076,6 +1076,422 @@ ocrReadButton.disabled =
 
   }
 );
+
+    // =========================================================
+// 写真を選択したとき
+// =========================================================
+
+ocrImageInput.addEventListener(
+ 'change',
+ function () {
+
+ const file =
+ ocrImageInput.files[0];
+
+ if (!file) {
+ return;
+ }
+
+ selectedOcrImage =
+ file;
+
+ if (ocrPreviewUrl) {
+
+ URL.revokeObjectURL(
+ ocrPreviewUrl
+ );
+
+ }
+
+ ocrPreviewUrl =
+ URL.createObjectURL(file);
+
+ ocrPreview.src =
+ ocrPreviewUrl;
+
+ ocrPreview.style.display =
+ 'block';
+
+ ocrReadButton.disabled =
+ false;
+
+ ocrProgress.value =
+ 0;
+
+ ocrProgress.style.display =
+ 'none';
+
+ ocrStatus.textContent =
+ '写真を選択しました。「写真から読み取る」を押してください。';
+
+ ocrStatus.style.display =
+ 'block';
+
+ }
+);
+
+
+// =========================================================
+// 写真から文字を読み取る
+// =========================================================
+
+ocrReadButton.addEventListener(
+ 'click',
+ async function () {
+
+ if (!selectedOcrImage) {
+
+ ocrStatus.textContent =
+ '先に写真を選択してください。';
+
+ ocrStatus.style.display =
+ 'block';
+
+ return;
+
+ }
+
+ if (typeof Tesseract === 'undefined') {
+
+ ocrStatus.textContent =
+ 'OCR機能を読み込めませんでした。インターネット接続を確認してください。';
+
+ ocrStatus.style.display =
+ 'block';
+
+ return;
+
+ }
+
+ ocrReadButton.disabled =
+ true;
+
+ ocrProgress.value =
+ 0;
+
+ ocrProgress.style.display =
+ 'block';
+
+ ocrStatus.textContent =
+ 'OCRを準備しています。';
+
+ ocrStatus.style.display =
+ 'block';
+
+ try {
+
+ const result =
+ await Tesseract.recognize(
+ selectedOcrImage,
+ 'jpn+eng',
+ {
+ logger:
+ function (ocrMessage) {
+
+ console.log(
+ 'OCR進行状況:',
+ ocrMessage
+ );
+
+ if (
+ typeof ocrMessage.progress ===
+ 'number'
+ ) {
+
+ const percent =
+ Math.round(
+ ocrMessage.progress * 100
+ );
+
+ ocrProgress.value =
+ percent;
+
+ if (
+ ocrMessage.status ===
+ 'recognizing text'
+ ) {
+
+ ocrStatus.textContent =
+ '写真の文字を読み取っています。' +
+ percent +
+ '％';
+
+ }
+
+ }
+
+ }
+ }
+ );
+
+ const rawText =
+ result.data.text || '';
+
+ console.log(
+ 'OCR読取全文:',
+ rawText
+ );
+
+ const vehicleInfo =
+ extractVehicleInfoFromOcr(
+ rawText
+ );
+
+ if (vehicleInfo.makerId) {
+
+ maker.value =
+ vehicleInfo.makerId;
+
+ }
+
+ if (vehicleInfo.model) {
+
+ model.value =
+ vehicleInfo.model;
+
+ }
+
+ if (
+ vehicleInfo.makerId ||
+ vehicleInfo.model
+ ) {
+
+ const makerResult =
+ vehicleInfo.makerId
+ ? getMakerName()
+ : '取得できませんでした';
+
+ const modelResult =
+ vehicleInfo.model ||
+ '取得できませんでした';
+
+ ocrStatus.textContent =
+ '読み取りが完了しました。\n' +
+ 'メーカー：' +
+ makerResult +
+ '\n' +
+ '型式：' +
+ modelResult +
+ '\n' +
+ '内容を確認してください。';
+
+ } else {
+
+ ocrStatus.textContent =
+ '文字は読み取りましたが、メーカーと型式を抽出できませんでした。';
+
+ }
+
+ ocrProgress.value =
+ 100;
+
+ } catch (error) {
+
+ console.error(
+ 'OCRエラー:',
+ error
+ );
+
+ ocrStatus.textContent =
+ '読み取りに失敗しました。コンソールを確認してください。';
+
+ } finally {
+
+ ocrReadButton.disabled =
+ false;
+
+ }
+
+ }
+);
+
+
+// =========================================================
+// OCR結果からメーカーと型式を取得
+// =========================================================
+
+function extractVehicleInfoFromOcr(
+ rawText
+) {
+
+ const text =
+ normalizeOcrText(
+ rawText
+ );
+
+ const vehicleInfo = {
+
+ makerId:
+ '',
+
+ model:
+ ''
+
+ };
+
+
+// ---------------------------------------------------------
+// メーカー判定
+// ---------------------------------------------------------
+
+ if (
+ text.includes('本田') ||
+ text.includes('HONDA')
+ ) {
+
+ vehicleInfo.makerId =
+ '3';
+
+ } else if (
+ text.includes('トヨタ') ||
+ text.includes('TOYOTA')
+ ) {
+
+ vehicleInfo.makerId =
+ '1';
+
+ } else if (
+ text.includes('日産') ||
+ text.includes('NISSAN')
+ ) {
+
+ vehicleInfo.makerId =
+ '2';
+
+ } else if (
+ text.includes('ダイハツ') ||
+ text.includes('DAIHATSU')
+ ) {
+
+ vehicleInfo.makerId =
+ '9';
+
+ } else if (
+ text.includes('スズキ') ||
+ text.includes('SUZUKI')
+ ) {
+
+ vehicleInfo.makerId =
+ '8';
+
+ } else if (
+ text.includes('マツダ') ||
+ text.includes('MAZDA')
+ ) {
+
+ vehicleInfo.makerId =
+ '5';
+
+ } else if (
+ text.includes('三菱') ||
+ text.includes('MITSUBISHI')
+ ) {
+
+ vehicleInfo.makerId =
+ '6';
+
+ } else if (
+ text.includes('スバル') ||
+ text.includes('SUBARU')
+ ) {
+
+ vehicleInfo.makerId =
+ '4';
+
+ } else if (
+ text.includes('レクサス') ||
+ text.includes('LEXUS')
+ ) {
+
+ vehicleInfo.makerId =
+ '10';
+
+ } else if (
+ text.includes('いすゞ') ||
+ text.includes('いすず') ||
+ text.includes('ISUZU')
+ ) {
+
+ vehicleInfo.makerId =
+ '7';
+
+ }
+
+
+// ---------------------------------------------------------
+// 型式取得
+// 例：5BA-GB5、6AA-ZVG11、DAA-GP5
+// ---------------------------------------------------------
+
+ const modelMatch =
+ text.match(
+ /\b(?:[345678]BA|[345678]AA|DAA|DBA|CBA|ABA|CAA|DLA|LA|TA|UA)-[A-Z0-9]{2,10}\b/
+ );
+
+ if (modelMatch) {
+
+ vehicleInfo.model =
+ modelMatch[0];
+
+ }
+
+ console.log(
+ 'OCR正規化後:',
+ text
+ );
+
+ console.log(
+ 'OCR抽出結果:',
+ vehicleInfo
+ );
+
+ return vehicleInfo;
+
+}
+
+
+// =========================================================
+// OCR結果を整える
+// =========================================================
+
+function normalizeOcrText(
+ rawText
+) {
+
+ return rawText
+
+ .toUpperCase()
+
+ .replace(
+ /[Ａ-Ｚａ-ｚ０-９]/g,
+ function (character) {
+
+ return String.fromCharCode(
+ character.charCodeAt(0) -
+ 0xFEE0
+ );
+
+ }
+ )
+
+ .replace(
+ /[―ー‐‑–—−]/g,
+ '-'
+ )
+
+ .replace(
+ /\s*-\s*/g,
+ '-'
+ )
+
+ .replace(
+ /\s+/g,
+ ' '
+ )
+
+ .trim();
+
+}
 
     // =========================================================
     // 検索ボタン
