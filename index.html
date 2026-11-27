@@ -171,38 +171,22 @@
     }
 
 
-    /* =========================================================
-       初度登録年月
-    ========================================================= */
+/* =========================================================
+   初度登録年月
+========================================================= */
 
-    .date-row {
-      display: flex;
-      gap: 12px;
-    }
+.date-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
 
-    .date-field {
-      position: relative;
-      flex: 1;
-    }
-
-    .date-field input {
-      padding-right: 42px;
-    }
-
-    .date-unit {
-      position: absolute;
-
-      top: 50%;
-      right: 14px;
-
-      transform: translateY(-50%);
-
-      color: #666666;
-
-      font-size: 14px;
-
-      pointer-events: none;
-    }
+.date-year,
+.date-month {
+  width: 100%;
+  min-width: 0;
+}
 
 
     /* =========================================================
@@ -492,63 +476,66 @@
 
           <!-- 初度登録年月 -->
 
-          <div class="form-group">
+<div class="form-group">
 
-            <label class="form-label">
-              初度登録年月
-              <span class="required">
-                必須
-              </span>
-            </label>
+  <label class="form-label">
 
+    初度登録年月
 
-            <div class="date-row">
+    <span class="required">
+      必須
+    </span>
 
-
-              <!-- 年 -->
-
-              <div class="date-field">
-
-                <input
-                  id="registrationYear"
-                  class="form-control"
-                  type="number"
-                  inputmode="numeric"
-                  placeholder="2024"
-                  min="1950"
-                  max="2100"
-                >
-
-                <span class="date-unit">
-                  年
-                </span>
-
-              </div>
+  </label>
 
 
-              <!-- 月 -->
+  <div class="date-row">
 
-              <div class="date-field">
 
-                <input
-                  id="registrationMonth"
-                  class="form-control"
-                  type="number"
-                  inputmode="numeric"
-                  placeholder="2"
-                  min="1"
-                  max="12"
-                >
+    <!-- 年 -->
 
-                <span class="date-unit">
-                  月
-                </span>
+    <select
+      id="registrationYear"
+      class="form-control date-year"
+    >
 
-              </div>
+      <option value="">
+        年を選択してください
+      </option>
 
-            </div>
+    </select>
 
-          </div>
+
+    <!-- 月 -->
+
+    <select
+      id="registrationMonth"
+      class="form-control date-month"
+    >
+
+      <option value="">
+        月を選択
+      </option>
+
+      <option value="1">1月</option>
+      <option value="2">2月</option>
+      <option value="3">3月</option>
+      <option value="4">4月</option>
+      <option value="5">5月</option>
+      <option value="6">6月</option>
+      <option value="7">7月</option>
+      <option value="8">8月</option>
+      <option value="9">9月</option>
+      <option value="10">10月</option>
+      <option value="11">11月</option>
+      <option value="12">12月</option>
+
+    </select>
+
+
+  </div>
+
+</div>
 
 
           <!-- 検索ボタン -->
@@ -618,6 +605,106 @@
 
     const searchButton =
       document.getElementById('searchButton');
+
+    // =========================================================
+// 初度登録年
+// 西暦 + 和暦
+// =========================================================
+
+function getJapaneseYear(year) {
+
+  // 令和
+  if (year >= 2019) {
+
+    const eraYear =
+      year - 2018;
+
+    if (eraYear === 1) {
+      return '令和元年';
+    }
+
+    return '令和' + eraYear + '年';
+
+  }
+
+
+  // 平成
+  if (year >= 1989) {
+
+    const eraYear =
+      year - 1988;
+
+    if (eraYear === 1) {
+      return '平成元年';
+    }
+
+    return '平成' + eraYear + '年';
+
+  }
+
+
+  // 昭和
+  if (year >= 1926) {
+
+    const eraYear =
+      year - 1925;
+
+    if (eraYear === 1) {
+      return '昭和元年';
+    }
+
+    return '昭和' + eraYear + '年';
+
+  }
+
+
+  return '';
+
+}
+
+
+// =========================================================
+// 年プルダウンを作成
+// =========================================================
+
+function createRegistrationYearOptions() {
+
+  const currentYear =
+    new Date().getFullYear();
+
+  for (
+    let year = currentYear;
+    year >= 1926;
+    year -= 1
+  ) {
+
+    const option =
+      document.createElement('option');
+
+    // 実際に検索で使用する値
+    option.value =
+      String(year);
+
+
+    // 画面に表示する文字
+    option.textContent =
+      year +
+      '年（' +
+      getJapaneseYear(year) +
+      '）';
+
+
+    registrationYear.appendChild(
+      option
+    );
+
+  }
+
+}
+
+
+// 年プルダウンを生成
+createRegistrationYearOptions();
 
     const message =
       document.getElementById('message');
@@ -739,34 +826,30 @@
 
         if (!year) {
 
-          showMessage(
-            '初度登録年を入力してください。',
-            'error'
-          );
+  showMessage(
+    '初度登録年を選択してください。',
+    'error'
+  );
 
-          registrationYear.focus();
+  registrationYear.focus();
 
-          return;
+  return;
 
-        }
+}
 
 
-        if (
-          !month ||
-          Number(month) < 1 ||
-          Number(month) > 12
-        ) {
+        if (!month) {
 
-          showMessage(
-            '初度登録月を1～12で入力してください。',
-            'error'
-          );
+  showMessage(
+    '初度登録月を選択してください。',
+    'error'
+  );
 
-          registrationMonth.focus();
+  registrationMonth.focus();
 
-          return;
+  return;
 
-        }
+}
 
 
         // -----------------------------------------------------
