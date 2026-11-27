@@ -154,6 +154,15 @@
   font-size: 12px;
  }
 
+.optional {
+ margin-left: 6px;
+
+ color: #777777;
+
+ font-size: 12px;
+ font-weight: 400;
+}
+  
  .form-control {
   display: block;
 
@@ -553,21 +562,19 @@
 
      </div>
 
+<!-- 初度登録年月 -->
 
-     <!-- 初度登録年月 -->
+<div class="form-group">
 
-     <div class="form-group">
+ <label class="form-label">
 
-      <label class="form-label">
+ 初度登録年月
 
-       初度登録年月
+ <span class="optional">
+ 任意
+ </span>
 
-       <span class="required">
-        必須
-       </span>
-
-      </label>
-
+ </label>
 
       <div class="date-row">
 
@@ -974,32 +981,39 @@
    }
 
 
-   if (!year) {
+// -----------------------------------------------------
+// 初度登録年月の入力確認
+//
+// 年・月とも空欄なら検索可能
+// 片方だけ入力されている場合はエラー
+// -----------------------------------------------------
 
-    showMessage(
-     '初度登録年を選択してください。',
-     'error'
-    );
+if (year && !month) {
 
-    registrationYear.focus();
+ showMessage(
+ '初度登録月を選択するか、初度登録年を空欄にしてください。',
+ 'error'
+ );
 
-    return;
+ registrationMonth.focus();
 
-   }
+ return;
+
+}
 
 
-   if (!month) {
+if (!year && month) {
 
-    showMessage(
-     '初度登録月を選択してください。',
-     'error'
-    );
+ showMessage(
+ '初度登録年を選択するか、初度登録月を空欄にしてください。',
+ 'error'
+ );
 
-    registrationMonth.focus();
+ registrationYear.focus();
 
-    return;
+ return;
 
-   }
+}
 
 
    // -----------------------------------------------------
@@ -1047,11 +1061,15 @@
     model:
      modelValue,
 
-    date:
-     Number(year) +
-     '/' +
-     Number(month) +
-     '/1',
+date:
+year && month
+? (
+ Number(year) +
+ '/' +
+ Number(month) +
+ '/1'
+)
+: '',
 
     sentAt:
      new Date().toISOString()
