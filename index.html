@@ -363,6 +363,132 @@
 
     }
 
+    /* =========================================================
+ コーションプレート読取
+========================================================= */
+
+.ocr-section {
+ margin-bottom: 30px;
+ padding: 18px;
+
+ background: #f7fbf8;
+
+ border: 1px solid #cfe7d7;
+ border-radius: 8px;
+}
+
+.ocr-title {
+ margin: 0 0 6px;
+
+ color: #333333;
+
+ font-size: 16px;
+ font-weight: 700;
+}
+
+.ocr-description {
+ margin: 0 0 14px;
+
+ color: #666666;
+
+ font-size: 12px;
+ line-height: 1.6;
+}
+
+.ocr-file-input {
+ display: none;
+}
+
+.ocr-select-button,
+.ocr-read-button {
+ display: block;
+
+ width: 100%;
+ height: 46px;
+
+ border-radius: 7px;
+
+ font-size: 14px;
+ font-weight: 700;
+
+ cursor: pointer;
+}
+
+.ocr-select-button {
+ padding: 12px;
+
+ background: #ffffff;
+
+ border: 1px solid #00c853;
+
+ color: #00a944;
+
+ text-align: center;
+}
+
+.ocr-select-button:hover {
+ background: #f0fff6;
+}
+
+.ocr-read-button {
+ margin-top: 10px;
+
+ background: #00c853;
+
+ border: none;
+
+ color: #ffffff;
+}
+
+.ocr-read-button:hover {
+ background: #00b84f;
+}
+
+.ocr-read-button:disabled {
+ background: #bbbbbb;
+ cursor: not-allowed;
+}
+
+.ocr-preview {
+ display: none;
+
+ width: 100%;
+ max-height: 280px;
+
+ margin-top: 14px;
+
+ border: 1px solid #dddddd;
+ border-radius: 6px;
+
+ object-fit: contain;
+}
+
+.ocr-status {
+ display: none;
+
+ margin-top: 12px;
+ padding: 10px 12px;
+
+ background: #fff8e1;
+
+ border: 1px solid #ffe082;
+ border-radius: 6px;
+
+ color: #6d5700;
+
+ font-size: 13px;
+ line-height: 1.6;
+}
+
+.ocr-progress {
+ display: none;
+
+ width: 100%;
+ height: 18px;
+
+ margin-top: 10px;
+}
+
   </style>
 </head>
 
@@ -394,6 +520,62 @@
 
         <div class="search-card-inner">
 
+          <!-- コーションプレート読取 -->
+
+<div class="ocr-section">
+
+ <p class="ocr-title">
+ コーションプレート読取
+ </p>
+
+ <p class="ocr-description">
+ コーションプレートを撮影すると、メーカーと型式を自動入力します。
+ 読み取り後は、必ず内容を確認してください。
+ </p>
+
+ <label
+ class="ocr-select-button"
+ for="ocrImageInput"
+ >
+ 写真を撮影・選択
+ </label>
+
+ <input
+ id="ocrImageInput"
+ class="ocr-file-input"
+ type="file"
+ accept="image/*"
+ capture="environment"
+ >
+
+ <img
+ id="ocrPreview"
+ class="ocr-preview"
+ alt="コーションプレート写真"
+ >
+
+ <button
+ id="ocrReadButton"
+ class="ocr-read-button"
+ type="button"
+ disabled
+ >
+ 写真から読み取る
+ </button>
+
+ <progress
+ id="ocrProgress"
+ class="ocr-progress"
+ value="0"
+ max="100"
+ ></progress>
+
+ <div
+ id="ocrStatus"
+ class="ocr-status"
+ ></div>
+
+</div>
 
           <!-- メーカー -->
 
@@ -634,6 +816,9 @@
 
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js">
+    
+  </script>
 
   <script>
 
@@ -664,6 +849,24 @@ const resetButton =
 
 const searchButton =
   document.getElementById('searchButton');
+
+    const ocrImageInput =
+ document.getElementById('ocrImageInput');
+
+const ocrPreview =
+ document.getElementById('ocrPreview');
+
+const ocrReadButton =
+ document.getElementById('ocrReadButton');
+
+const ocrProgress =
+ document.getElementById('ocrProgress');
+
+const ocrStatus =
+ document.getElementById('ocrStatus');
+
+let selectedOcrImage = null;
+let ocrPreviewUrl = '';
 
     // =========================================================
 // 初度登録年
@@ -774,16 +977,16 @@ createRegistrationYearOptions();
     // =========================================================
 
     function showMessage(
-      text,
-      type
-    ) {
+ text,
+ type
+ ) {
 
-      message.textContent = text;
+ message.innerHTML = text;
 
-      message.className =
-        'message ' + type;
+ message.className =
+ 'message ' + type;
 
-    }
+}
 
 
     // =========================================================
@@ -826,6 +1029,43 @@ resetButton.addEventListener(
 
     // 初度登録月を初期状態へ
     registrationMonth.value = '';
+
+    // OCR画像選択をリセット
+ocrImageInput.value = '';
+
+selectedOcrImage = null;
+
+if (ocrPreviewUrl) {
+
+ URL.revokeObjectURL(
+ ocrPreviewUrl
+ );
+
+ ocrPreviewUrl = '';
+
+}
+
+ocrPreview.removeAttribute(
+ 'src'
+);
+
+ocrPreview.style.display =
+ 'none';
+
+ocrProgress.value =
+ 0;
+
+ocrProgress.style.display =
+ 'none';
+
+ocrStatus.textContent =
+ '';
+
+ocrStatus.style.display =
+ 'none';
+
+ocrReadButton.disabled =
+ true;
 
     // エラー・成功メッセージを消す
     message.textContent = '';
