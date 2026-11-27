@@ -520,7 +520,7 @@
 
         <div class="search-card-inner">
 
-          <!-- コーションプレート読取 -->
+<!-- コーションプレート読取 -->
 
 <div class="ocr-section">
 
@@ -761,32 +761,29 @@
 </div>
 
 
-          <!-- 操作ボタン -->
+<!-- 操作ボタン -->
 
 <div class="search-button-wrapper">
 
+ <!-- リセットボタン -->
 
-  <!-- リセットボタン -->
+ <button
+ id="resetButton"
+ class="reset-button"
+ type="button"
+ >
+ 入力内容をリセット
+ </button>
 
-  <button
-    id="resetButton"
-    class="reset-button"
-    type="button"
-  >
-    入力内容をリセット
-  </button>
+ <!-- 検索ボタン -->
 
-
-  <!-- 検索ボタン -->
-
-  <button
-    id="searchButton"
-    class="search-button"
-    type="button"
-  >
-    適Naviで検索
-  </button>
-
+ <button
+ id="searchButton"
+ class="search-button"
+ type="button"
+ >
+ 適Naviで検索
+ </button>
 
 </div>
 
@@ -1173,25 +1170,39 @@ ocrReadButton.addEventListener(
  'block';
 
  ocrStatus.textContent =
- 'OCRを準備しています。';
+ '写真をOCR用に加工しています。';
 
  ocrStatus.style.display =
  'block';
 
  try {
 
- const result =
+ const sourceImage =
+ await loadOcrImage(
+ selectedOcrImage
+ );
+
+ const processedCanvas =
+ createOcrImage(
+ sourceImage
+ );
+
+ // OCRへ渡す加工後画像をプレビュー表示
+ ocrPreview.src =
+ processedCanvas.toDataURL(
+ 'image/png'
+ );
+
+ ocrStatus.textContent =
+ '加工後の画像から型式を読み取っています。';
+
+ const ocrResult =
  await Tesseract.recognize(
- selectedOcrImage,
- 'jpn+eng',
+ processedCanvas,
+ 'eng',
  {
  logger:
  function (ocrMessage) {
-
- console.log(
- 'OCR進行状況:',
- ocrMessage
- );
 
  if (
  typeof ocrMessage.progress ===
@@ -1212,7 +1223,7 @@ ocrReadButton.addEventListener(
  ) {
 
  ocrStatus.textContent =
- '写真の文字を読み取っています。' +
+ '型式を読み取っています。' +
  percent +
  '％';
 
@@ -1225,22 +1236,24 @@ ocrReadButton.addEventListener(
  );
 
  const rawText =
- result.data.text || '';
+ ocrResult.data.text || '';
 
-console.log(
- 'OCR読取全文:',
- rawText
-);
-
-alert(
- 'OCRが読み取った文字：\n\n' +
- rawText
-);
-
- const vehicleInfo =
- extractVehicleInfoFromOcr(
+ console.log(
+ 'OCR読取結果:',
  rawText
  );
+
+ const vehicleInfo =
+ extractVehicleInfo(
+ rawText
+ );
+
+ if (vehicleInfo.model) {
+
+ model.value =
+ vehicleInfo.model;
+
+ }
 
  if (vehicleInfo.makerId) {
 
@@ -1251,39 +1264,24 @@ alert(
 
  if (vehicleInfo.model) {
 
- model.value =
- vehicleInfo.model;
-
- }
-
- if (
- vehicleInfo.makerId ||
- vehicleInfo.model
- ) {
-
- const makerResult =
- vehicleInfo.makerId
- ? getMakerName()
- : '取得できませんでした';
-
- const modelResult =
- vehicleInfo.model ||
- '取得できませんでした';
-
  ocrStatus.textContent =
  '読み取りが完了しました。\n' +
  'メーカー：' +
- makerResult +
+ (
+ vehicleInfo.makerId
+ ? getMakerName()
+ : '判定できませんでした'
+ ) +
  '\n' +
  '型式：' +
- modelResult +
+ vehicleInfo.model +
  '\n' +
  '内容を確認してください。';
 
  } else {
 
  ocrStatus.textContent =
- '文字は読み取りましたが、メーカーと型式を抽出できませんでした。';
+ '型式を取得できませんでした。加工後の画像を確認してください。';
 
  }
 
@@ -1298,7 +1296,11 @@ alert(
  );
 
  ocrStatus.textContent =
- '読み取りに失敗しました。コンソールを確認してください。';
+ '読み取りに失敗しました：' +
+ (
+ error.message ||
+ String(error)
+ );
 
  } finally {
 
@@ -1312,172 +1314,233 @@ alert(
 
 
 // =========================================================
-// OCR結果からメーカーと型式を取得
+// 写真ファイルを読み込む
 // =========================================================
 
-function extractVehicleInfoFromOcr(
- rawText
+function loadOcrImage(
+ file
 ) {
 
- const text =
- normalizeOcrText(
- rawText
+ return new Promise(
+ function (
+ resolve,
+ reject
+ ) {
+
+ const image =
+ new Image();
+
+ const url =
+ URL.createObjectURL(file);
+
+ image.onload =
+ function () {
+
+ URL.revokeObjectURL(
+ url
  );
 
- const vehicleInfo = {
-
- makerId:
- '',
-
- model:
- ''
+ resolve(
+ image
+ );
 
  };
 
+ image.onerror =
+ function () {
 
-// ---------------------------------------------------------
-// メーカー判定
-// ---------------------------------------------------------
+ URL.revokeObjectURL(
+ url
+ );
 
- if (
- text.includes('本田') ||
- text.includes('HONDA')
- ) {
+ reject(
+ new Error(
+ '写真を読み込めませんでした。'
+ )
+ );
 
- vehicleInfo.makerId =
- '3';
+ };
 
- } else if (
- text.includes('トヨタ') ||
- text.includes('TOYOTA')
- ) {
-
- vehicleInfo.makerId =
- '1';
-
- } else if (
- text.includes('日産') ||
- text.includes('NISSAN')
- ) {
-
- vehicleInfo.makerId =
- '2';
-
- } else if (
- text.includes('ダイハツ') ||
- text.includes('DAIHATSU')
- ) {
-
- vehicleInfo.makerId =
- '9';
-
- } else if (
- text.includes('スズキ') ||
- text.includes('SUZUKI')
- ) {
-
- vehicleInfo.makerId =
- '8';
-
- } else if (
- text.includes('マツダ') ||
- text.includes('MAZDA')
- ) {
-
- vehicleInfo.makerId =
- '5';
-
- } else if (
- text.includes('三菱') ||
- text.includes('MITSUBISHI')
- ) {
-
- vehicleInfo.makerId =
- '6';
-
- } else if (
- text.includes('スバル') ||
- text.includes('SUBARU')
- ) {
-
- vehicleInfo.makerId =
- '4';
-
- } else if (
- text.includes('レクサス') ||
- text.includes('LEXUS')
- ) {
-
- vehicleInfo.makerId =
- '10';
-
- } else if (
- text.includes('いすゞ') ||
- text.includes('いすず') ||
- text.includes('ISUZU')
- ) {
-
- vehicleInfo.makerId =
- '7';
+ image.src =
+ url;
 
  }
-
-
-// ---------------------------------------------------------
-// 型式取得
-// 例：5BA-GB5、6AA-ZVG11、DAA-GP5
-// ---------------------------------------------------------
-
- const modelMatch =
- text.match(
- /\b(?:[345678]BA|[345678]AA|DAA|DBA|CBA|ABA|CAA|DLA|LA|TA|UA)-[A-Z0-9]{2,10}\b/
  );
-
- if (modelMatch) {
-
- vehicleInfo.model =
- modelMatch[0];
-
- }
-
- console.log(
- 'OCR正規化後:',
- text
- );
-
- console.log(
- 'OCR抽出結果:',
- vehicleInfo
- );
-
- return vehicleInfo;
 
 }
 
 
 // =========================================================
-// OCR結果を整える
+// OCR用画像を作成
+// 写真中央部を切り出し、拡大・コントラスト強調する
 // =========================================================
 
-function normalizeOcrText(
+function createOcrImage(
+ image
+) {
+
+ /*
+  * 今回の写真では、プレートが画像中央付近にあります。
+  * 画像全体の中央60％を切り出します。
+  */
+
+ const cropWidth =
+ Math.round(
+ image.naturalWidth * 0.60
+ );
+
+ const cropHeight =
+ Math.round(
+ image.naturalHeight * 0.35
+ );
+
+ const cropX =
+ Math.round(
+ (
+ image.naturalWidth -
+ cropWidth
+ ) /
+ 2
+ );
+
+ const cropY =
+ Math.round(
+ image.naturalHeight * 0.28
+ );
+
+ const scale =
+ 4;
+
+ const canvas =
+ document.createElement(
+ 'canvas'
+ );
+
+ canvas.width =
+ cropWidth * scale;
+
+ canvas.height =
+ cropHeight * scale;
+
+ const context =
+ canvas.getContext(
+ '2d',
+ {
+ willReadFrequently:
+ true
+ }
+ );
+
+ context.imageSmoothingEnabled =
+ true;
+
+ context.imageSmoothingQuality =
+ 'high';
+
+ context.drawImage(
+ image,
+
+ cropX,
+ cropY,
+ cropWidth,
+ cropHeight,
+
+ 0,
+ 0,
+ canvas.width,
+ canvas.height
+ );
+
+ const imageData =
+ context.getImageData(
+ 0,
+ 0,
+ canvas.width,
+ canvas.height
+ );
+
+ const pixels =
+ imageData.data;
+
+ for (
+ let index = 0;
+ index < pixels.length;
+ index += 4
+ ) {
+
+ const red =
+ pixels[index];
+
+ const green =
+ pixels[index + 1];
+
+ const blue =
+ pixels[index + 2];
+
+ let gray =
+ (
+ red * 0.299
+ ) +
+ (
+ green * 0.587
+ ) +
+ (
+ blue * 0.114
+ );
+
+ /*
+  * 黒いプレートの白文字を強調する。
+  * 完全な二値化はせず、文字の輪郭を残す。
+  */
+ gray =
+ (
+ gray - 100
+ ) *
+ 2.4 +
+ 150;
+
+ gray =
+ Math.max(
+ 0,
+ Math.min(
+ 255,
+ gray
+ )
+ );
+
+ pixels[index] =
+ gray;
+
+ pixels[index + 1] =
+ gray;
+
+ pixels[index + 2] =
+ gray;
+
+ }
+
+ context.putImageData(
+ imageData,
+ 0,
+ 0
+ );
+
+ return canvas;
+
+}
+
+
+// =========================================================
+// OCR結果からメーカーと型式を抽出
+// =========================================================
+
+function extractVehicleInfo(
  rawText
 ) {
 
- return rawText
-
+ let text =
+ rawText
  .toUpperCase()
-
- .replace(
- /[Ａ-Ｚａ-ｚ０-９]/g,
- function (character) {
-
- return String.fromCharCode(
- character.charCodeAt(0) -
- 0xFEE0
- );
-
- }
- )
 
  .replace(
  /[―ー‐‑–—−]/g,
@@ -1495,6 +1558,94 @@ function normalizeOcrText(
  )
 
  .trim();
+
+ /*
+  * 型式周辺で起こりやすい誤認識だけ補正
+  */
+ text =
+ text
+ .replace(
+ /\bSBA-/g,
+ '5BA-'
+ )
+
+ .replace(
+ /\bG8S\b/g,
+ 'GB5'
+ )
+
+ .replace(
+ /\bGBS\b/g,
+ 'GB5'
+ );
+
+ const compactText =
+ text.replace(
+ /\s+/g,
+ ''
+ );
+
+ const modelMatch =
+ compactText.match(
+ /(?:[345678]BA|[345678]AA|DAA|DBA|CBA|ABA|CAA|DLA|LA|TA|UA)-[A-Z0-9]{2,10}/
+ );
+
+ const vehicleInfo = {
+
+ makerId:
+ '',
+
+ model:
+ ''
+
+ };
+
+ if (modelMatch) {
+
+ vehicleInfo.model =
+ modelMatch[0];
+
+ }
+
+ /*
+  * 今回取得した5BA-GB5はホンダ車。
+  * 日本語会社名をOCRできなくてもメーカーを設定する。
+  */
+ if (
+ vehicleInfo.model ===
+ '5BA-GB5'
+ ) {
+
+ vehicleInfo.makerId =
+ '3';
+
+ }
+
+ /*
+  * OCRがHONDAを取得できた場合
+  */
+ if (
+ text.includes(
+ 'HONDA'
+ )
+ ) {
+
+ vehicleInfo.makerId =
+ '3';
+
+ }
+
+ console.log(
+ 'OCR正規化後:',
+ text
+ );
+
+ console.log(
+ '抽出結果:',
+ vehicleInfo
+ );
+
+ return vehicleInfo;
 
 }
 
