@@ -510,16 +510,11 @@
      <div class="form-group">
 
       <label
-       class="form-label"
-       for="carName"
-      >
-       車名
-
-       <span class="required">
-        必須
-       </span>
-
-      </label>
+ class="form-label"
+ for="carName"
+>
+ 車名
+</label>
 
       <input
        id="carName"
@@ -964,21 +959,6 @@
     return;
 
    }
-
-
-   if (!carNameValue) {
-
-    showMessage(
-     '車名を入力してください。',
-     'error'
-    );
-
-    carName.focus();
-
-    return;
-
-   }
-
 
    if (!modelValue) {
 
