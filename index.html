@@ -1227,10 +1227,15 @@ ocrReadButton.addEventListener(
  const rawText =
  result.data.text || '';
 
- console.log(
+console.log(
  'OCR読取全文:',
  rawText
- );
+);
+
+alert(
+ 'OCRが読み取った文字：\n\n' +
+ rawText
+);
 
  const vehicleInfo =
  extractVehicleInfoFromOcr(
