@@ -414,52 +414,52 @@
   class="form-control"
 >
   <option value="">
-    メーカーを選択してください
-  </option>
+  メーカーを選択してください
+</option>
 
-  <option value="TOYOTA">
-    トヨタ
-  </option>
+<option value="1">
+  トヨタ
+</option>
 
-  <option value="NISSAN">
-    日産
-  </option>
+<option value="2">
+  日産
+</option>
 
-  <option value="HONDA">
-    ホンダ
-  </option>
+<option value="3">
+  ホンダ
+</option>
 
-  <option value="DAIHATSU">
-    ダイハツ
-  </option>
+<option value="9">
+  ダイハツ
+</option>
 
-  <option value="SUZUKI">
-    スズキ
-  </option>
+<option value="8">
+  スズキ
+</option>
 
-  <option value="MAZDA">
-    マツダ
-  </option>
+<option value="5">
+  マツダ
+</option>
 
-  <option value="MITSUBISHI">
-    三菱
-  </option>
+<option value="6">
+  三菱
+</option>
 
-  <option value="SUBARU">
-    スバル
-  </option>
+<option value="4">
+  スバル
+</option>
 
-  <option value="LEXUS">
-    レクサス
-  </option>
+<option value="10">
+  レクサス
+</option>
 
-  <option value="ISUZU">
-    いすず
-  </option>
+<option value="7">
+  いすず
+</option>
 
-  <option value="IMPORT">
-    外車
-  </option>
+<option value="99">
+  外車
+</option>
 </select>
 
           </div>
@@ -943,51 +943,115 @@ resetButton.addEventListener(
 }
 
 
-        // -----------------------------------------------------
-        // 検索用車両データ
-        // -----------------------------------------------------
+// -----------------------------------------------------
+// 外車は検索対象外
+// -----------------------------------------------------
 
-        const vehicle = {
+if (Number(makerValue) === 99) {
 
-          maker: makerValue,
+  showMessage(
+    '外車は適Naviの検索対象外です。',
+    'error'
+  );
 
-          makerName: makerName,
+  maker.focus();
 
-          carName: carNameValue,
+  return;
 
-          model: modelValue,
-
-          year: Number(year),
-
-          month: Number(month)
-
-        };
+}
 
 
-        console.log(
-          '検索する車両情報:',
-          vehicle
-        );
+// -----------------------------------------------------
+// 適Naviへ渡す車両データ
+// 既存ブックマークレットと同じ項目名にする
+// -----------------------------------------------------
+
+const vehicle = {
+
+  source:
+    'github-vehicle-search',
+
+  type:
+    'TEKIGNAVI_SEARCH',
+
+  makerName:
+    makerName,
+
+  makerId:
+    Number(makerValue),
+
+  carKeyword:
+    carNameValue,
+
+  model:
+    modelValue,
+
+  date:
+    Number(year) +
+    '/' +
+    Number(month) +
+    '/1',
+
+  sentAt:
+    new Date().toISOString()
+
+};
 
 
-        // -----------------------------------------------------
-        // 現在は画面確認用
-        // 次の段階で適Navi検索処理をここへ接続する
-        // -----------------------------------------------------
+console.log(
+  '適Naviへ渡す車両情報:',
+  vehicle
+);
 
-        showMessage(
-          makerName +
-          ' / ' +
-          carNameValue +
-          ' / ' +
-          modelValue +
-          ' / ' +
-          year +
-          '年' +
-          month +
-          '月 の検索準備ができました。',
-          'success'
-        );
+
+// -----------------------------------------------------
+// 車両情報をURLのハッシュへ格納
+// -----------------------------------------------------
+
+const encodedVehicle =
+  encodeURIComponent(
+    JSON.stringify(vehicle)
+  );
+
+
+const tekignaviUrl =
+  'https://eneos.cla-ss.com/searches/maker/' +
+  '#kintoneVehicle=' +
+  encodedVehicle;
+
+
+// -----------------------------------------------------
+// 適Naviを開く
+// 同じ名前のタブを再利用する
+// -----------------------------------------------------
+
+const tekignaviWindow =
+  window.open(
+    tekignaviUrl,
+    'ENEOS_TEKIGNAVI'
+  );
+
+
+if (!tekignaviWindow) {
+
+  showMessage(
+    '適Naviを開けませんでした。ポップアップブロックを解除してください。',
+    'error'
+  );
+
+  return;
+
+}
+
+
+// -----------------------------------------------------
+// GitHub側の案内
+// -----------------------------------------------------
+
+showMessage(
+  '車両情報を適Naviへ送りました。適Naviの画面でブックマークレットを実行してください。',
+  'success'
+);
 
       }
     );
