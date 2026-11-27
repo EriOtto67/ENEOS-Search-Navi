@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>適Navi 車両検索</title>
+
+  <style>
+    /* =========================================================
+       基本設定
+    ========================================================= */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f5f7f6;
+      color: #333333;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans JP",
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        Meiryo,
+        sans-serif;
+    }
+
+
+    /* =========================================================
+       ページ全体
+    ========================================================= */
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 50px 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+
+    /* =========================================================
+       タイトル
+    ========================================================= */
+
+    .page-title {
+      margin: 0;
+      text-align: center;
+      color: #222222;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .page-description {
+      margin: 10px 0 30px;
+      text-align: center;
+      color: #666666;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+
+    /* =========================================================
+       検索カード
+    ========================================================= */
+
+    .search-card {
+      position: relative;
+      overflow: hidden;
+
+      background: #ffffff;
+
+      border: 1px solid #e2e5e3;
+      border-radius: 12px;
+
+      box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .search-card::before {
+      content: "";
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 5px;
+
+      background: #00c853;
+    }
+
+    .search-card-inner {
+      padding: 38px 38px 34px;
+    }
+
+
+    /* =========================================================
+       入力項目
+    ========================================================= */
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: #333333;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .required {
+      margin-left: 6px;
+      color: #00b84f;
+      font-size: 12px;
+    }
+
+    .form-control {
+      display: block;
+
+      width: 100%;
+      height: 48px;
+
+      padding: 0 14px;
+
+      background: #ffffff;
+
+      border: 1px solid #cccccc;
+      border-radius: 6px;
+
+      color: #333333;
+
+      font-size: 16px;
+
+      outline: none;
+
+      transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+    }
+
+    .form-control:hover {
+      border-color: #999999;
+    }
+
+    .form-control:focus {
+      border-color: #00c853;
+
+      box-shadow:
+        0 0 0 3px rgba(0, 200, 83, 0.12);
+    }
+
+    select.form-control {
+      cursor: pointer;
+    }
+
+
+    /* =========================================================
+       初度登録年月
+    ========================================================= */
+
+    .date-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .date-field {
+      position: relative;
+      flex: 1;
+    }
+
+    .date-field input {
+      padding-right: 42px;
+    }
+
+    .date-unit {
+      position: absolute;
+
+      top: 50%;
+      right: 14px;
+
+      transform: translateY(-50%);
+
+      color: #666666;
+
+      font-size: 14px;
+
+      pointer-events: none;
+    }
+
+
+    /* =========================================================
+       検索ボタン
+    ========================================================= */
+
+    .search-button-wrapper {
+      margin-top: 34px;
+    }
+
+    .search-button {
+      display: block;
+
+      width: 100%;
+      height: 52px;
+
+      border: none;
+      border-radius: 7px;
+
+      background: #00c853;
+
+      color: #ffffff;
+
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 3px 7px rgba(0, 200, 83, 0.25);
+
+      transition:
+        background-color 0.2s,
+        transform 0.1s,
+        box-shadow 0.2s;
+    }
+
+    .search-button:hover {
+      background: #00b84f;
+
+      box-shadow:
+        0 4px 9px rgba(0, 200, 83, 0.32);
+    }
+
+    .search-button:active {
+      transform: translateY(1px);
+      box-shadow:
+        0 2px 4px rgba(0, 200, 83, 0.22);
+    }
+
+
+    /* =========================================================
+       メッセージ
+    ========================================================= */
+
+    .message {
+      display: none;
+
+      margin-top: 22px;
+      padding: 14px 16px;
+
+      border-radius: 6px;
+
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .message.error {
+      display: block;
+
+      background: #fff2f2;
+
+      border: 1px solid #f2b8b8;
+
+      color: #c62828;
+    }
+
+    .message.success {
+      display: block;
+
+      background: #effaf3;
+
+      border: 1px solid #b7e6c8;
+
+      color: #16843d;
+    }
+
+
+    /* =========================================================
+       注意書き
+    ========================================================= */
+
+    .notice {
+      margin-top: 22px;
+
+      color: #777777;
+
+      font-size: 12px;
+      line-height: 1.7;
+
+      text-align: center;
+    }
+
+
+    /* =========================================================
+       スマートフォン
+    ========================================================= */
+
+    @media (max-width: 600px) {
+
+      .page {
+        padding: 30px 15px;
+      }
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .page-description {
+        margin-bottom: 22px;
+      }
+
+      .search-card-inner {
+        padding:
+          32px 22px
+          26px;
+      }
+
+      .date-row {
+        gap: 8px;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <main class="page">
+
+    <div class="container">
+
+      <!-- =====================================================
+           タイトル
+      ====================================================== -->
+
+      <h1 class="page-title">
+        適Navi 車両検索
+      </h1>
+
+      <p class="page-description">
+        車両情報を入力して適合情報を検索します
+      </p>
+
+
+      <!-- =====================================================
+           検索フォーム
+      ====================================================== -->
+
+      <div class="search-card">
+
+        <div class="search-card-inner">
+
+
+          <!-- メーカー -->
+
+          <div class="form-group">
+
+            <label
+              class="form-label"
+              for="maker"
+            >
+              メーカー
+              <span class="required">
+                必須
+              </span>
+            </label>
+
+            <select
+              id="maker"
+              class="form-control"
+            >
+              <option value="">
+                メーカーを選択してください
+              </option>
+
+              <option value="TOYOTA">
+                トヨタ
+              </option>
+
+              <option value="NISSAN">
+                日産
+              </option>
+
+              <option value="HONDA">
+                ホンダ
+              </option>
+
+              <option value="MAZDA">
+                マツダ
+              </option>
+
+              <option value="SUBARU">
+                スバル
+              </option>
+
+              <option value="SUZUKI">
+                スズキ
+              </option>
+
+              <option value="DAIHATSU">
+                ダイハツ
+              </option>
+
+              <option value="MITSUBISHI">
+                三菱
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- 車名 -->
+
+          <div class="form-group">
+
+            <label
+              class="form-label"
+              for="carName"
+            >
+              車名
+              <span class="required">
+                必須
+              </span>
+            </label>
+
+            <input
+              id="carName"
+              class="form-control"
+              type="text"
+              placeholder="例：ハリアー"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <!-- 型式 -->
+
+          <div class="form-group">
+
+            <label
+              class="form-label"
+              for="model"
+            >
+              型式
+              <span class="required">
+                必須
+              </span>
+            </label>
+
+            <input
+              id="model"
+              class="form-control"
+              type="text"
+              placeholder="例：6BA-MXUA80"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <!-- 初度登録年月 -->
+
+          <div class="form-group">
+
+            <label class="form-label">
+              初度登録年月
+              <span class="required">
+                必須
+              </span>
+            </label>
+
+
+            <div class="date-row">
+
+
+              <!-- 年 -->
+
+              <div class="date-field">
+
+                <input
+                  id="registrationYear"
+                  class="form-control"
+                  type="number"
+                  inputmode="numeric"
+                  placeholder="2024"
+                  min="1950"
+                  max="2100"
+                >
+
+                <span class="date-unit">
+                  年
+                </span>
+
+              </div>
+
+
+              <!-- 月 -->
+
+              <div class="date-field">
+
+                <input
+                  id="registrationMonth"
+                  class="form-control"
+                  type="number"
+                  inputmode="numeric"
+                  placeholder="2"
+                  min="1"
+                  max="12"
+                >
+
+                <span class="date-unit">
+                  月
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- 検索ボタン -->
+
+          <div class="search-button-wrapper">
+
+            <button
+              id="searchButton"
+              class="search-button"
+              type="button"
+            >
+              適Naviで検索
+            </button>
+
+          </div>
+
+
+          <!-- メッセージ -->
+
+          <div
+            id="message"
+            class="message"
+          ></div>
+
+
+        </div>
+
+      </div>
+
+
+      <!-- 注意書き -->
+
+      <p class="notice">
+        AIによるマッチング検索です。<br>
+        検索結果は必ず車両情報と照合してください。
+      </p>
+
+
+    </div>
+
+  </main>
+
+
+  <script>
+
+    'use strict';
+
+
+    // =========================================================
+    // 要素取得
+    // =========================================================
+
+    const maker =
+      document.getElementById('maker');
+
+    const carName =
+      document.getElementById('carName');
+
+    const model =
+      document.getElementById('model');
+
+    const registrationYear =
+      document.getElementById('registrationYear');
+
+    const registrationMonth =
+      document.getElementById('registrationMonth');
+
+    const searchButton =
+      document.getElementById('searchButton');
+
+    const message =
+      document.getElementById('message');
+
+
+    // =========================================================
+    // メッセージ表示
+    // =========================================================
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      message.textContent = text;
+
+      message.className =
+        'message ' + type;
+
+    }
+
+
+    // =========================================================
+    // メーカー名取得
+    // =========================================================
+
+    function getMakerName() {
+
+      if (
+        maker.selectedIndex < 0
+      ) {
+        return '';
+      }
+
+      return maker.options[
+        maker.selectedIndex
+      ].text.trim();
+
+    }
+
+
+    // =========================================================
+    // 検索ボタン
+    // =========================================================
+
+    searchButton.addEventListener(
+      'click',
+      function () {
+
+
+        // -----------------------------------------------------
+        // 入力値取得
+        // -----------------------------------------------------
+
+        const makerValue =
+          maker.value;
+
+        const makerName =
+          getMakerName();
+
+        const carNameValue =
+          carName.value.trim();
+
+        const modelValue =
+          model.value.trim();
+
+        const year =
+          registrationYear.value.trim();
+
+        const month =
+          registrationMonth.value.trim();
+
+
+        // -----------------------------------------------------
+        // 入力確認
+        // -----------------------------------------------------
+
+        if (!makerValue) {
+
+          showMessage(
+            'メーカーを選択してください。',
+            'error'
+          );
+
+          maker.focus();
+
+          return;
+
+        }
+
+
+        if (!carNameValue) {
+
+          showMessage(
+            '車名を入力してください。',
+            'error'
+          );
+
+          carName.focus();
+
+          return;
+
+        }
+
+
+        if (!modelValue) {
+
+          showMessage(
+            '型式を入力してください。',
+            'error'
+          );
+
+          model.focus();
+
+          return;
+
+        }
+
+
+        if (!year) {
+
+          showMessage(
+            '初度登録年を入力してください。',
+            'error'
+          );
+
+          registrationYear.focus();
+
+          return;
+
+        }
+
+
+        if (
+          !month ||
+          Number(month) < 1 ||
+          Number(month) > 12
+        ) {
+
+          showMessage(
+            '初度登録月を1～12で入力してください。',
+            'error'
+          );
+
+          registrationMonth.focus();
+
+          return;
+
+        }
+
+
+        // -----------------------------------------------------
+        // 検索用車両データ
+        // -----------------------------------------------------
+
+        const vehicle = {
+
+          maker: makerValue,
+
+          makerName: makerName,
+
+          carName: carNameValue,
+
+          model: modelValue,
+
+          year: Number(year),
+
+          month: Number(month)
+
+        };
+
+
+        console.log(
+          '検索する車両情報:',
+          vehicle
+        );
+
+
+        // -----------------------------------------------------
+        // 現在は画面確認用
+        // 次の段階で適Navi検索処理をここへ接続する
+        // -----------------------------------------------------
+
+        showMessage(
+          makerName +
+          ' / ' +
+          carNameValue +
+          ' / ' +
+          modelValue +
+          ' / ' +
+          year +
+          '年' +
+          month +
+          '月 の検索準備ができました。',
+          'success'
+        );
+
+      }
+    );
+
+
+  </script>
+
+</body>
+</html>
